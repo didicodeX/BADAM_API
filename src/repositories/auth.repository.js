@@ -8,3 +8,7 @@ export const saveUser = (userData) => {
 export const findUserById = async (userId) => {
   return await User.findById(userId).select("-password");
 };
+
+export const findUserByEmail = async (email) => {
+  return await User.findOne({ email });
+};
