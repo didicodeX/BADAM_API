@@ -11,7 +11,6 @@ export const sessionFormationValidator = [
     .isInt({ min: 1 })
     .withMessage("Le nombre de participants doit être superieur a 1 "),
 
-
   body("dateDebut")
     .notEmpty()
     .withMessage("La date de début est requise")

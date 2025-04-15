@@ -9,7 +9,9 @@ export const createFormationSuivieValidator = [
   body("statut")
     .optional()
     .isIn(["en cours", "terminée", "abandonnée", "en pause"])
-    .withMessage("Statut invalide. Doit être 'en cours', 'terminée', 'abandonnée' ou 'en pause'"),
+    .withMessage(
+      "Statut invalide. Doit être 'en cours', 'terminée', 'abandonnée' ou 'en pause'"
+    ),
 
   body("user")
     .notEmpty()

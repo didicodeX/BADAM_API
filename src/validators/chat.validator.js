@@ -20,5 +20,5 @@ export const createChatValidator = [
   body("archivé")
     .optional()
     .isBoolean()
-    .withMessage("La valeur de 'archivé' doit être true ou false")
+    .withMessage("La valeur de 'archivé' doit être true ou false"),
 ];

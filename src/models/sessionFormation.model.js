@@ -9,8 +9,8 @@ const SessionFormationSchema = new mongoose.Schema({
   nbParticipants: {
     type: Number,
   },
-  comment:{type:String},
-  rating:{type:Number},
+  comment: { type: String },
+  rating: { type: Number },
   dateDebut: {
     type: Date,
     required: true,

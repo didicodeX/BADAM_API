@@ -1,17 +1,11 @@
 import { body } from "express-validator";
 
 export const createMessageValidator = [
-  body("message")
-    .notEmpty()
-    .withMessage("Le message est requis"),
+  body("message").notEmpty().withMessage("Le message est requis"),
 
-  body("expediteur")
-    .notEmpty()
-    .withMessage("L'expéditeur est requis"),
+  body("expediteur").notEmpty().withMessage("L'expéditeur est requis"),
 
-  body("destinaitaire")
-    .notEmpty()
-    .withMessage("Le destinataire est requis"),
+  body("destinaitaire").notEmpty().withMessage("Le destinataire est requis"),
 
   body("date")
     .optional()

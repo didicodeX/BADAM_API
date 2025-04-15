@@ -1,7 +1,4 @@
-import {body} from "express-validator"
-
-
-
+import { body } from "express-validator";
 
 export const wishlistValidator = [
   body("formation")
