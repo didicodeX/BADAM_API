@@ -32,7 +32,7 @@ export const login = async (email, password) => {
       id: existUser._id,
       email: existUser.email,
       name: existUser.name,
-      role: existUser.role,
+      roles: existUser.roles,
     },
     process.env.JWT_SECRET,
     { expiresIn: "24h" }
