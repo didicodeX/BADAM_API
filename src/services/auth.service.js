@@ -3,9 +3,8 @@ import jwt from "jsonwebtoken";
 import * as authRepo from "../repositories/auth.repository.js";
 
 export const register = async (userData) => {
-  // Vérifie si l'utilisateur existe déjà
   const email = userData.email;
-  const existingUser = await User.findOne({ email });
+  const existingUser = await authRepo.findUserByEmail(email);
   if (existingUser) throw new Error("Email already registered");
 
   // Hashage sécurisé du mot de passe
@@ -17,7 +16,7 @@ export const register = async (userData) => {
 };
 
 export const login = async (email, password) => {
-  const existUser = await User.findOne({ email });
+  const existUser = await authRepo.findUserByEmail(email);
 
   if (!existUser) {
     throw new Error("Utilisateur introuvable");
@@ -33,6 +32,7 @@ export const login = async (email, password) => {
       id: existUser._id,
       email: existUser.email,
       name: existUser.name,
+      roles: existUser.roles,
     },
     process.env.JWT_SECRET,
     { expiresIn: "24h" }
