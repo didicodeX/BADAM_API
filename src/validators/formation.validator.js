@@ -31,5 +31,5 @@ export const createFormationValidator = [
     .isInt({ min: 0, max: 5 })
     .withMessage("Le nombre d'etoile doit etre compris entre 0 et 5"),
 
-  body("media").optional().isString().withMessage(" rentrer un media"),
+  //body("media").optional().isString().withMessage(" rentrer un media"),
 ];
