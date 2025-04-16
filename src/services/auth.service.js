@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import * as authRepo from "../repositories/auth.repository.js";
+import * as userRepo from "../repositories/user.repository.js";
 import * as userService from "../services/user.service.js";
 
 export const register = async (userData) => {
@@ -9,7 +9,7 @@ export const register = async (userData) => {
 };
 
 export const login = async (email, password) => {
-  const existUser = await authRepo.findByEmail(email);
+  const existUser = await userRepo.findByEmail(email);
 
   if (!existUser) throw new Error("Utilisateur introuvable");
 
@@ -31,5 +31,5 @@ export const login = async (email, password) => {
 };
 
 export const getMe = async (userId) => {
-  return await authRepo.findUserById(userId);
+  return await userRepo.getUser(userId);
 };
