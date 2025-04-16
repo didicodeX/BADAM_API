@@ -19,9 +19,9 @@ export const createFormationSuivieValidator = [
     .isMongoId()
     .withMessage("ID utilisateur invalide"),
 
-  body("sessioFormation")
+  body("session")
     .notEmpty()
     .withMessage("La session de formation est requise")
     .isMongoId()
-    .withMessage("ID sessionFormation invalide"),
+    .withMessage("ID session invalide"),
 ];

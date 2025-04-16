@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
 const whishlistSchema = new mongoose.Schema({
-  sessionFormation: {
+  session: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "SessionFormation",
+    ref: "Session",
     require: true,
   },
   user: {

@@ -4,7 +4,7 @@ import * as authRepo from "../repositories/auth.repository.js";
 import * as userService from "../services/user.service.js";
 
 export const register = async (userData) => {
-// Utiliser le service user
+  // Utiliser le service user
   return await userService.createUser(userData);
 };
 

@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const SessionFormationSchema = new mongoose.Schema({
+const SessionSchema = new mongoose.Schema({
   formation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Formation",
@@ -9,8 +9,6 @@ const SessionFormationSchema = new mongoose.Schema({
   nbParticipants: {
     type: Number,
   },
-  comment: { type: String },
-  rating: { type: Number },
   dateDebut: {
     type: Date,
     required: true,
@@ -27,7 +25,7 @@ const SessionFormationSchema = new mongoose.Schema({
   },
 });
 
-export const SessionFormation = mongoose.model(
-  "SessionFormation",
-  SessionFormationSchema
+export const Session = mongoose.model(
+  "Session",
+  SessionSchema
 );

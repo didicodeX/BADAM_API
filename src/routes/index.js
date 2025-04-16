@@ -3,6 +3,8 @@ import authRoutes from "../routes/auth.route.js";
 import userRoutes from "../routes/user.route.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/authorize.middleware.js";
+import formationRoutes from "../routes/formation.route.js";
+import sessionRoutes from "../routes/session.route.js";
 
 const router = Router();
 
@@ -11,11 +13,28 @@ router.get("/", (req, res) => {
 });
 
 router.use("/auth", authRoutes);
+
 router.use(
   "/users",
   authenticate,
   authorize("superAdmin", "admin"),
   userRoutes
+);
+
+router.use("/users", userRoutes);
+
+router.use(
+  "/formations",
+  authenticate,
+  authorize("formateur"),
+  formationRoutes
+);
+
+router.use(
+  "/sessions",
+  authenticate,
+  authorize("formateur"),
+  sessionRoutes
 );
 
 export default router;

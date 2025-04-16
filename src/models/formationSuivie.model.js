@@ -7,9 +7,9 @@ const FormationSuivieSchema = new mongoose.Schema({
     ref: "User",
     require: true,
   },
-  sessionFormation: {
+  session: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "SessionFormation",
+    ref: "Session",
     require: true,
   },
 });
