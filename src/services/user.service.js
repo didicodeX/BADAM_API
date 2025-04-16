@@ -1,11 +1,12 @@
 import * as userRepo from "../repositories/user.repository.js";
+import bcrypt from "bcrypt"
 
 export const getAllUsers = async () => {
   return await userRepo.getAllUsers();
 };
 
 export const getUser = async (id) => {
-  return await userRepo.getUserById(id);
+  return await userRepo.getUser(id);
 };
 
 export const createUser = async (userData) => {
