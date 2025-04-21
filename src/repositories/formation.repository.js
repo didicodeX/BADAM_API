@@ -1,7 +1,9 @@
 import { Formation } from "../models/formation.model.js";
+import { Session } from "../models/session.model.js";
+import { Avis } from "../models/avis.model.js";
 
-export const createFormation = async (data) => {
-  return await Formation.create(data);
+export const createFormation = async (data, id) => {
+  return await Formation.create({ ...data, formateur: id });
 };
 
 export const getAllFormation = async () => {
@@ -26,4 +28,19 @@ export const updateFormation = async (id, data) => {
 
 export const deleteFormation = async (id) => {
   return await Formation.findByIdAndDelete(id);
+};
+
+export const getAvisByFormationId = async (formationId) => {
+  // Récupérer les sessions de la formation
+  const sessions = await Session.find({ formation: formationId }).select("_id");
+
+  const sessionIds = sessions.map((s) => s._id);
+
+  // Récupérer les avis liés à ces sessions
+  return await Avis.find({ sessionFormation: { $in: sessionIds } })
+    .populate({
+      path: "sessionFormation",
+      select: "dateDebut dateFin statut",
+    })
+    .select("comment rating dateAvis sessionFormation");
 };

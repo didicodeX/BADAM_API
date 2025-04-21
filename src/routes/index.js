@@ -5,6 +5,7 @@ import { authenticate } from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/authorize.middleware.js";
 import formationRoutes from "../routes/formation.route.js";
 import sessionRoutes from "../routes/session.route.js";
+import avisRoutes from "../routes/avis.route.js";
 
 const router = Router();
 
@@ -30,11 +31,8 @@ router.use(
   formationRoutes
 );
 
-router.use(
-  "/sessions",
-  authenticate,
-  authorize("formateur"),
-  sessionRoutes
-);
+router.use("/sessions", authenticate, authorize("formateur"), sessionRoutes);
+
+router.use("/avis", authenticate, authorize("formateur","apprenti"), avisRoutes);
 
 export default router;

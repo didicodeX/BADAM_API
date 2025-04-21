@@ -12,6 +12,11 @@ const AvisSchema = new mongoose.Schema({
     ref: "Session",
     require: true,
   },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    require: true,
+  },
 });
 
 export const Avis = mongoose.model("Avis", AvisSchema);

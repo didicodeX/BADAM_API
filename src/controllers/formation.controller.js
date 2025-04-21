@@ -1,8 +1,9 @@
 import * as formationService from "../services/formation.service.js";
 
 export const createFormation = async (req, res) => {
+  const { id } = req.user;
   try {
-    const formation = await formationService.createFormation(req.body);
+    const formation = await formationService.createFormation(req.body,id);
     res.status(201).json(formation);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -33,8 +34,6 @@ export const getFormation = async (req, res) => {
   }
 };
 
-
-
 export const updateFormation = async (req, res) => {
   try {
     const id = req.params.id;
@@ -58,7 +57,7 @@ export const updateFormation = async (req, res) => {
   }
 };
 
-export const deleteFormation= async (req, res) => {
+export const deleteFormation = async (req, res) => {
   try {
     const id = req.params.id;
     const deletedFormation = await formationService.deleteFormation(id);
@@ -67,12 +66,20 @@ export const deleteFormation= async (req, res) => {
       return res.status(404).json({ message: "Formation non trouvée" });
     }
 
-    res
-      .status(200)
-      .json(deleteFormation, {
-        message: "Formation supprimée avec succès",
-      });
+    res.status(200).json(deleteFormation, {
+      message: "Formation supprimée avec succès",
+    });
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+export const getAvisByFormation = async (req, res) => {
+  try {
+    const formationId = req.params.id;
+    const avis = await formationService.getAvisByFormationId(formationId);
+    res.status(200).json(avis);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 };

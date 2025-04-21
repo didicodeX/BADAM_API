@@ -1,11 +1,7 @@
 import { body } from "express-validator";
 
 export const sessionFormationValidator = [
-  body("formation")
-    .notEmpty()
-    .withMessage("La formation est requise")
-    .isMongoId()
-    .withMessage("ID de formation invalide"),
+  
 
   body("nbParticipants")
     .isInt({ min: 1 })

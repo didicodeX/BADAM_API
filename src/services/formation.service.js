@@ -1,7 +1,7 @@
 import * as formationRepo from "../repositories/formation.repository.js";
 
-export const createFormation = async (data) => {
-  return await formationRepo.createFormation(data);
+export const createFormation = async (data,id) => {
+  return await formationRepo.createFormation(data,id);
 };
 
 export const getAllFormation = async () => {
@@ -18,4 +18,8 @@ export const updateFormation = async (id, data) => {
 
 export const deleteFormation = async (id) => {
   return await formationRepo.deleteFormation(id);
+};
+
+export const getAvisByFormationId = async (formationId) => {
+  return await formationRepo.getAvisByFormationId(formationId);
 };
