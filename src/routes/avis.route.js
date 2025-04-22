@@ -17,7 +17,7 @@ import { validate } from "../middlewares/validate.middleware.js";
 
 const router = Router();
 
-router.post("/", avisValidator, validate, createAvis);
+router.post("/:sessionId", avisValidator, validate, createAvis);
 router.get("/", getAllAvis);
 router.get("/:id", getAvis);
 router.get("/formation/:formationId", getAvisByFormation);

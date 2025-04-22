@@ -2,8 +2,9 @@ import * as sessionService from "../services/session.service.js";
 
 export const createSession = async (req, res) => {
   const { id } = req.user;
+  const {formationId}=req.params;
   try {
-    const session = await sessionService.createSession(req.body,id);
+    const session = await sessionService.createSession(req.body,id,formationId);
     res.status(201).json(session);
   } catch (err) {
     res.status(400).json({ error: err.message });

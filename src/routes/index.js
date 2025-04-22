@@ -33,6 +33,6 @@ router.use(
 
 router.use("/sessions", authenticate, authorize("formateur"), sessionRoutes);
 
-router.use("/avis", authenticate, authorize("formateur","apprenti"), avisRoutes);
+router.use("/avis", authenticate,  avisRoutes);
 
 export default router;

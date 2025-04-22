@@ -14,7 +14,7 @@ import { validate } from "../middlewares/validate.middleware.js";
 
 const router = Router();
 
-router.post("/", sessionFormationValidator, validate, createSession);
+router.post("/:formationId", sessionFormationValidator, validate, createSession);
 router.get("/", getAllSessions);
 router.get("/:id", getSession);
 router.get("/formation/:formationId", getSessionsByFormation);

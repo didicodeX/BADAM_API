@@ -43,7 +43,9 @@ export const getAvisTopRatedBYSession = async (id) => {
 
 
 
-export const getTopRatedFormations = async (limit) => { avisRepo.getTopRatedFormations(limit)};
+export const getTopRatedFormations = async () => {
+  return await avisRepo.getTopRatedFormations();
+};
 
 
 export const getTopRatedSessions = (limit) => avisRepo.getTopRatedSessions(limit);

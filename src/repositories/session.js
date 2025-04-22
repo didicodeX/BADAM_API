@@ -1,8 +1,8 @@
 import { Session } from "../models/session.model.js";
 import { Avis } from "../models/avis.model.js";
 
-export const createSession = async (data,id) => {
-  return await Session.create({ ...data, formation: id });
+export const createSession = async (data,userId,formationId) => {
+  return await Session.create({ ...data, user:userId,formation: formationId });
 };
 
 export const getAllSessions = async () => {
@@ -31,7 +31,7 @@ export const deleteSession = async (id) => {
 
 
 export const getAvisBySessionId = async (sessionId) => {
-  return await Avis.find({ sessionFormation: sessionId })
+  return await Avis.find({ session: sessionId })
     .select("comment rating dateAvis")
     .sort({ dateAvis: -1 }); // tri du plus récent au plus ancien
 };
