@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const FormationSuivieSchema = new mongoose.Schema({
+const RegistrationSchema = new mongoose.Schema({
   dateInscription: { type: Date, default: Date.now },
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -14,7 +14,7 @@ const FormationSuivieSchema = new mongoose.Schema({
   },
 });
 
-export const FormationSuivie = mongoose.model(
-  "FormationSuivie",
-  FormationSuivieSchema
+export const Registration = mongoose.model(
+  "Registration",
+  RegistrationSchema
 );
