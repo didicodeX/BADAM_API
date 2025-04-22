@@ -5,6 +5,8 @@ import { authenticate } from "../middlewares/auth.middleware.js";
 import { authorize } from "../middlewares/authorize.middleware.js";
 import formationRoutes from "../routes/formation.route.js";
 import sessionRoutes from "../routes/session.route.js";
+import registrationRoutes from "../routes/registration.route.js";
+import wishlistRoutes from "../routes/wishlist.route.js";
 
 const router = Router();
 
@@ -35,6 +37,19 @@ router.use(
   authenticate,
   authorize("formateur"),
   sessionRoutes
+);
+
+router.use(
+  "/registrations",
+  authenticate,
+  registrationRoutes
+);
+
+
+router.use(
+  "/wishlist",
+  authenticate,
+  wishlistRoutes
 );
 
 export default router;

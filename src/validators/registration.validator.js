@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-export const createFormationSuivieValidator = [
+export const createRegistrationValidator = [
   body("dateInscription")
     .optional()
     .isISO8601()

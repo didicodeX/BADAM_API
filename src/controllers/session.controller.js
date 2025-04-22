@@ -12,7 +12,7 @@ export const createSession = async (req, res) => {
 export const getAllSessions = async (req, res) => {
   try {
     const sessions = await sessionService.getAllSessions();
-    res.json(sessions);
+    return res.status(200).json(sessions);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -83,3 +83,4 @@ export const deleteSession = async (req, res) => {
     res.status(400).json({ error: err.message });
   }
 };
+
