@@ -128,13 +128,14 @@ export const getAvisTopRatedBYSession = async (id) => {
 
 export const getTopRatedFormations = async (req, res) => {
   try {
-    const limit = req.query.limit || 5;
-    const topFormations = await avisService.getTopRatedFormations(limit);
-    res.json(topFormations);
-  } catch (err) {
-    res.status(400).json({ error: err.message });
+    const topFormations = await avisService.getTopRatedFormations();
+    res.status(200).json(topFormations);
+  } catch (error) {
+    console.error("Erreur complète :", error); // <--- très important pour debugger
+    res.status(500).json({ error: error.message }); // renvoie le message réel
   }
 };
+
 
 export const getTopRatedSessions = async (req, res) => {
   try {

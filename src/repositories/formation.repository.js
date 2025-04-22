@@ -31,16 +31,16 @@ export const deleteFormation = async (id) => {
 };
 
 export const getAvisByFormationId = async (formationId) => {
-  // Récupérer les sessions de la formation
   const sessions = await Session.find({ formation: formationId }).select("_id");
+  console.log("Sessions trouvées:", sessions);
 
   const sessionIds = sessions.map((s) => s._id);
-
-  // Récupérer les avis liés à ces sessions
-  return await Avis.find({ sessionFormation: { $in: sessionIds } })
+  const avis = await Avis.find({ session: { $in: sessionIds } })
     .populate({
-      path: "sessionFormation",
+      path: "session",
       select: "dateDebut dateFin statut",
     })
-    .select("comment rating dateAvis sessionFormation");
+    .select("comment rating dateAvis session");
+
+  
 };

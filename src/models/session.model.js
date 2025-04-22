@@ -4,7 +4,7 @@ const SessionSchema = new mongoose.Schema({
   formation: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Formation",
-    require: true,
+    required: true,
   },
   nbParticipants: {
     type: Number,

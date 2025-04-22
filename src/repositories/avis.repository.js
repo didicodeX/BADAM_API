@@ -1,4 +1,6 @@
 import { Avis } from "../models/avis.model.js";
+import { Session } from "../models/session.model.js"; 
+//import { Formation } from "../models/formation.js";
 
 
 export const createAvis = async (data, sessionId, userId) => {
@@ -25,10 +27,15 @@ export const getAvisByUser = async (userId) => {
   return await Avis.find({ user: userId });
 };
 
+export const getAvisByFormation = async (formationId) => {
+  const sessions = await Session.find({ formation: formationId }, { _id: 1 });
+  const sessionIds = sessions.map(s => s._id);
 
-export const getSAvisByFormation = async (formationId) => {
-  return await Avis.find({ formation: formationId });
+  return await Avis.find({ session: { $in: sessionIds } })
+    .populate("user", "nom prenom") // Optionnel : pour voir l’auteur
+    .populate("session", "dateDebut dateFin"); // Optionnel : pour avoir les dates de session
 };
+
 
 export const getAvisBySession = async (sessionId) => {
   return await Avis.find({ session: sessionId });
@@ -46,25 +53,15 @@ export const deleteAvis = async (id) => {
 
 
 
-
-
-
-export const getAvisTopRatedBYSession = async (id) => {
-  return await Avis.findOneById(id);
-};
-
-
-
-
-export const getTopRatedFormations = async (limit = 5) => {
-  return await Avis.aggregate([
+export const getTopRatedFormations = async () => {
+  const result = await Avis.aggregate([
     {
       $lookup: {
-        from: "sessionformations",
-        localField: "sessionFormation",
+        from: "sessions", // doit correspondre au nom MongoDB réel
+        localField: "session",
         foreignField: "_id",
-        as: "session"
-      }
+        as: "session",
+      },
     },
     { $unwind: "$session" },
     {
@@ -72,39 +69,41 @@ export const getTopRatedFormations = async (limit = 5) => {
         from: "formations",
         localField: "session.formation",
         foreignField: "_id",
-        as: "formation"
-      }
+        as: "formation",
+      },
     },
     { $unwind: "$formation" },
     {
       $group: {
         _id: "$formation._id",
-        titre: { $first: "$formation.titre" },
-        moyenneNote: { $avg: "$rating" },
-        totalAvis: { $sum: 1 }
-      }
+        formation: { $first: "$formation" },
+        averageNote: { $avg: "$note" },
+        totalAvis: { $sum: 1 },
+      },
     },
-    { $sort: { moyenneNote: -1, totalAvis: -1 } },
-    { $limit: parseInt(limit) }
+    { $sort: { averageNote: -1 } },
+    { $limit: 5 },
   ]);
+
+  return result;
 };
+
+
 
 export const getTopRatedSessions = async (limit = 5) => {
   return await Avis.aggregate([
     {
       $group: {
-        _id: "$sessionFormation",
+        _id: "$session",
         moyenneNote: { $avg: "$rating" },
         totalAvis: { $sum: 1 }
       }
     },
-    {
-      $sort: { moyenneNote: -1, totalAvis: -1 }
-    },
+    { $sort: { moyenneNote: -1, totalAvis: -1 } },
     { $limit: parseInt(limit) },
     {
       $lookup: {
-        from: "sessionformations",
+        from: "sessions",
         localField: "_id",
         foreignField: "_id",
         as: "session"
