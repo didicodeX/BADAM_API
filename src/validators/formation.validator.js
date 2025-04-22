@@ -9,8 +9,6 @@ export const createFormationValidator = [
     .notEmpty()
     .withMessage("L'adresse de la formation est requise"),
 
-  body("formateur").notEmpty().withMessage("Le nom du formateur est requis"),
-
   body("nbvues")
     .optional()
     .isInt({ min: 0 })

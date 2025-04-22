@@ -1,8 +1,10 @@
 import * as sessionService from "../services/session.service.js";
 
 export const createSession = async (req, res) => {
+  const { id } = req.user;
+  const {formationId}=req.params;
   try {
-    const session = await sessionService.createSession(req.body);
+    const session = await sessionService.createSession(req.body,id,formationId);
     res.status(201).json(session);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -84,3 +86,12 @@ export const deleteSession = async (req, res) => {
   }
 };
 
+export const getAvisBySessionId = async (req, res) => {
+  try {
+    const sessionId = req.params.id;
+    const avis = await sessionService.getAvisBySessionId(sessionId);
+    res.json(avis);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};

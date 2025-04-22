@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-export const validateAvis = [
+export const avisValidator = [
   body("comment")
     .optional()
     .isString()
@@ -18,9 +18,8 @@ export const validateAvis = [
     .toDate()
     .withMessage("La date de début doit être une date valide"),
 
-  body("Session")
-    .notEmpty()
-    .withMessage("La Session est requise")
-    .isMongoId()
-    .withMessage("Session doit être un ID MongoDB valide"),
+  
+
+
+    
 ];
