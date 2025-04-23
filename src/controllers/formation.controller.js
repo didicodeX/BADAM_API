@@ -3,6 +3,13 @@ import * as formationService from "../services/formation.service.js";
 export const createFormation = async (req, res) => {
   const { id } = req.user;
   try {
+    console.log(req.files);
+    
+    const images = (req.files?.image || []).map(file => file.path); 
+    const videos = (req.files?.video || []).map(file => file.path);
+    const media = [...images, ...videos];
+
+    req.body.media = media; 
     const formation = await formationService.createFormation(req.body,id);
     res.status(201).json(formation);
   } catch (err) {

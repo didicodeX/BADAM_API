@@ -17,14 +17,14 @@ router.get("/", (req, res) => {
 
 router.use("/auth", authRoutes);
 
-router.use(
-  "/users",
-  authenticate,
-  authorize("superAdmin", "admin"),
-  userRoutes
-);
+// router.use(
+//   "/users",
+//   authenticate,
+//   authorize("superAdmin", "admin"),
+//   userRoutes
+// );
 
-router.use("/users", userRoutes);
+router.use("/users",authenticate, userRoutes);
 
 router.use(
   "/formations",
