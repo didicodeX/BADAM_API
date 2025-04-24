@@ -4,7 +4,7 @@ export const addToWishlist = async (req, res) => {
     try {
         const userId = req.user.id;
 
-        const { sessionId } = req.body;
+        const { sessionId } = req.params;
         console.log(sessionId);
         
         await wishlistService.addToWishlist(userId, sessionId);

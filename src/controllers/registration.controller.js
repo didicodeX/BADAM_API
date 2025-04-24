@@ -2,7 +2,11 @@ import * as RegistrationService from "../services/registration.service.js"
 
 export const createRegistration = async (req, res) => {
   try {
-    const Registration = await RegistrationService.createRegistration(req.body);
+    const userId = req.user.id;
+    const sessionId = req.params.sessionId;
+
+    const Registration = await RegistrationService.createRegistration({ userId, sessionId });
+
     res.status(201).json(Registration);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -38,10 +42,11 @@ export const getRegistrationsBySessionId = async (req, res) => {
 
 export const deleteRegistration = async (req, res) => {
   try {
-    const deleted = await RegistrationService.deleteRegistration(req.params.id);
-    if (!deleted) {
-      return res.status(404).json({ error: "Inscription non trouvée" });
-    }
+    const { sessionId } = req.params;
+    const userId = req.user.id; 
+
+    await RegistrationService.deleteRegistration(userId, sessionId);
+
     res.status(200).json({ message: "Inscription supprimée avec succès" });
   } catch (err) {
     res.status(400).json({ error: err.message });
