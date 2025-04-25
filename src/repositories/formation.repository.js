@@ -1,6 +1,7 @@
 import { Formation } from "../models/formation.model.js";
 import { Session } from "../models/session.model.js";
 import { Avis } from "../models/avis.model.js";
+import { Registration } from "../models/registration.model.js";
 
 export const createFormation = async (data, id) => {
   return await Formation.create({ ...data, formateur: id });
@@ -19,6 +20,25 @@ export const getFormation = async (id) => {
     select: "name -_id",
   });
 };
+
+export const getFormationsCreateByUser = async (userId) => {
+  return await Formation.find({ formateur: userId }).populate("formateur" ,"name" );
+};
+
+export const getFormationsByUser = async (userId) => {
+  return await Registration.find({ user: userId })
+    .populate({
+      path: "session",
+      populate: {
+        path: "formation",
+        populate: {
+          path: "formateur",
+          select: "name", 
+        },
+      },
+    });
+};
+
 
 export const updateFormation = async (id, data) => {
   return await Formation.findByIdAndUpdate(id, data, {

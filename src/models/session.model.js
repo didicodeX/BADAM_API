@@ -17,6 +17,7 @@ const SessionSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  coverImage:{type:String,},
 
   statut: {
     type: String,

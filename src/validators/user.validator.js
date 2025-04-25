@@ -2,6 +2,7 @@ import { body } from "express-validator";
 
 export const createUserValidator = [
   body("name").notEmpty().withMessage("le nom est requis"),
+  body("avatar").isString().isLength({ max: 1}).withMessage("l avatar est requis"),
 
   body("email")
     .notEmpty().withMessage("L'email est requis")

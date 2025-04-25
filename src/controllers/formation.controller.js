@@ -41,6 +41,33 @@ export const getFormation = async (req, res) => {
   }
 };
 
+export const getCreateFormationsByUser = async (req, res) => {
+  const userId = req.params.userId;
+  try {
+    const formations = await formationService.getFormationsCreateByUser(userId);
+    if (!formations) {
+      return res.status(404).json({ message: "Formation non trouvée" });
+    }
+    res.status(200).json(formations);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getFormationsByUser = async (req, res) => {
+  const userId = req.params.userId;
+
+  try {
+    const formations = await formationService.getFormationsByUser(userId);
+    res.status(200).json(formations);
+  } catch (error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des formations", error });
+  }
+};
+
+
+
+
 export const updateFormation = async (req, res) => {
   try {
     const id = req.params.id;

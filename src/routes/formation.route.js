@@ -6,6 +6,7 @@ import {
   updateFormation,
   deleteFormation,
   getAvisByFormation,
+  getFormationsByUser,getCreateFormationsByUser
 } from "../controllers/formation.controller.js";
 import { createFormationValidator } from "../validators/formation.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
@@ -21,6 +22,9 @@ router.post("/", upload.fields([
 router.get("/", getAllFormation);
 
 router.get("/:id", getFormation);
+router.get("/:userId", getFormationsByUser);
+router.get("/user/:userId", getFormationsByUser);
+router.get("/formateur/:userId", getCreateFormationsByUser);
 
 //GET /formations/:id/avis — Voir tous les avis d’une formation, via ses sessions
 router.patch("/:id", createFormationValidator, validate, updateFormation);

@@ -2,8 +2,12 @@ import { body } from "express-validator";
 
 export const sessionFormationValidator = [
   body("nbParticipants")
-    .isInt({ min: 1 })
+    .isInt()
     .withMessage("Le nombre de participants doit être superieur a 1 "),
+
+    // body("maxParticipants")
+    // .isInt({ min: 1 })
+    // .withMessage("Le max de participants doit être superieur a 1 "),
 
   body("dateDebut")
     .notEmpty()
@@ -27,4 +31,9 @@ export const sessionFormationValidator = [
     .optional()
     .isIn(["Disponible", "Expirée"])
     .withMessage("Le statut doit être 'Disponible' ou 'Expirée'"),
+
+    body("coverImage")
+    .optional()
+    .isString().withMessage("Une image de couverture est requise")
+
 ];

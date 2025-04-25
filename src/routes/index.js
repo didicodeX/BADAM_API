@@ -33,7 +33,7 @@ router.use(
   formationRoutes
 );
 
-router.use("/sessions", authenticate, authorize("formateur"), sessionRoutes);
+router.use("/sessions", authenticate, sessionRoutes);
 
 router.use("/avis", authenticate,  avisRoutes);
 
