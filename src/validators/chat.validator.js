@@ -1,7 +1,10 @@
 import { body } from "express-validator";
 
 export const createChatValidator = [
+<<<<<<< Updated upstream
   
+=======
+>>>>>>> Stashed changes
   body("dernierMessage.contenu")
     .optional()
     .isString()

@@ -1,7 +1,5 @@
 import * as avisService from "../services/avis.service.js";
 
-
-
 export const createAvis = async (req, res) => {
   const { id: userId } = req.user;
   const { sessionId } = req.params;

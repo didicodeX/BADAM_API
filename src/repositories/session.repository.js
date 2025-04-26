@@ -11,7 +11,7 @@ export const getAllSessions = async () => {
 };
 
 export const getSession = async (id) => {
-  return await Session.findById(id);
+  return await Session.findById(id).populate("formation").populate("formation.formateur");
 };
 
 

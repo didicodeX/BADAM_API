@@ -8,6 +8,8 @@ import sessionRoutes from "../routes/session.route.js";
 import registrationRoutes from "../routes/registration.route.js";
 import wishlistRoutes from "../routes/wishlist.route.js";
 import avisRoutes from "../routes/avis.route.js";
+import chatRoutes from "../routes/chat.route.js"
+import messageRoutes from "../routes/message.route.js"
 
 const router = Router();
 
@@ -50,4 +52,15 @@ router.use(
   wishlistRoutes
 );
 
+router.use(
+  "/chats",
+  authenticate,
+  chatRoutes
+);
+
+router.use(
+  "/messages",
+  authenticate,
+  messageRoutes,
+);
 export default router;
