@@ -1,18 +1,16 @@
 import mongoose from "mongoose";
 
-const whishlistSchema = new mongoose.Schema({
-  creationDate: { type: Date },
-  
-  formation: {
+const wishlistSchema = new mongoose.Schema({
+  sessionId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Formation",
+    ref: "Session",
     require: true,
   },
-  user: {
+  userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     require: true,
   },
 });
 
-export const whishlist = mongoose.model("whishlist", whishlistSchema);
+export const Wishlist = mongoose.model("wishlist", wishlistSchema);

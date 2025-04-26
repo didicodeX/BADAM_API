@@ -1,12 +1,7 @@
 import { body } from "express-validator";
 
 export const createChatValidator = [
-  body("user")
-    .notEmpty()
-    .withMessage("L'utilisateur est requis")
-    .isMongoId()
-    .withMessage("L'ID utilisateur est invalide"),
-
+  
   body("dernierMessage.contenu")
     .optional()
     .isString()
@@ -20,5 +15,5 @@ export const createChatValidator = [
   body("archivé")
     .optional()
     .isBoolean()
-    .withMessage("La valeur de 'archivé' doit être true ou false")
+    .withMessage("La valeur de 'archivé' doit être true ou false"),
 ];
