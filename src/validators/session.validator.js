@@ -1,9 +1,9 @@
 import { body } from "express-validator";
 
 export const sessionFormationValidator = [
-  body("nbParticipants")
+  body("maxParticipant")
     .isInt({ min: 1 })
-    .withMessage("Le nombre de participants doit être superieur a 1 "),
+    .withMessage("Le nombre de participants doit être superieur ou égale a 1 "),
 
   body("dateDebut")
     .notEmpty()

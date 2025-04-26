@@ -59,7 +59,14 @@ export const getRegistrationsBySessionId = async (sessionId) => {
         });
 };
 
+export const getRegistrationByUserAndSession = async (userId, sessionId) => {
+    
+    return await Registration.findOne({
+        user: userId,
+        session: sessionId,
+    });
+};
+
 export const deleteRegistration = async (id) => {
     return await Registration.findByIdAndDelete(id);
-  };
-  
+};
