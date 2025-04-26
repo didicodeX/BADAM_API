@@ -1,4 +1,4 @@
-import * as sessionRepo from "../repositories/session.js";
+import * as sessionRepo from "../repositories/session.repository.js";
 
 export const createSession = async (data,userId,formationId) => {
   return await sessionRepo.createSession(data,userId,formationId);

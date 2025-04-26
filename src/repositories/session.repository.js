@@ -2,8 +2,8 @@ import { Session } from "../models/session.model.js";
 import { Avis } from "../models/avis.model.js";
 import { Registration } from "../models/registration.model.js";
 
-export const createSession = async (data,userId,formationId) => {
-  return await Session.create({ ...data, user:userId,formation: formationId });
+export const createSession = async (data, userId, formationId) => {
+  return await Session.create({ ...data, user: userId, formation: formationId });
 };
 
 export const getAllSessions = async () => {

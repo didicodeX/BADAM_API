@@ -9,6 +9,9 @@ const SessionSchema = new mongoose.Schema({
   nbParticipants: {
     type: Number,
   },
+  maxParticipant: {
+    type: Number,
+  },
   dateDebut: {
     type: Date,
     required: true,
