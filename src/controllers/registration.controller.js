@@ -1,13 +1,24 @@
 import * as RegistrationService from "../services/registration.service.js"
 
+// export const createRegistration = async (req, res) => {
+//   try {
+//     const Registration = await RegistrationService.createRegistration(req.body);
+//     res.status(201).json(Registration);
+//   } catch (err) {
+//     res.status(400).json({ error: err.message });
+//   }
+// }
+
 export const createRegistration = async (req, res) => {
   try {
-    const Registration = await RegistrationService.createRegistration(req.body);
-    res.status(201).json(Registration);
+    const io = req.app.get("io");
+    const registration = await RegistrationService.createRegistration(req.body, io);
+    res.status(201).json(registration);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
-}
+};
+
 
 export const getRegistrations = async (req, res) => {
   try {

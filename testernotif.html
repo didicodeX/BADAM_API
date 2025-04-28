@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Notifications BADAM</title>
+  <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+</head>
+<body>
+  <h1>Notifications reçues :</h1>
+  <ul id="notifications"></ul>
+
+  <script>
+    // Connecte-toi à ton serveur Socket.IO
+    const socket = io("http://localhost:4500", { 
+      withCredentials: true 
+    });
+
+    // Quand connecté
+    socket.on("connect", () => {
+      console.log("✅ Connecté avec le socket id :", socket.id);
+
+      // Rejoindre la salle du formateur
+      socket.emit("join-formateur-room", "67ffa6c1a51a450173d495c5");
+      console.log("📚 Rejoint la salle du formateur !");
+    });
+
+    // Écouter les nouvelles notifications
+    socket.on("nouvelle-notification", (notification) => {
+      console.log("🔔 Nouvelle notification :", notification);
+
+      const ul = document.getElementById("notifications");
+      const li = document.createElement("li");
+      li.textContent = notification.message || "Notification sans message";
+      ul.appendChild(li);
+    });
+
+    // (Optionnel) Voir la mise à jour des inscriptions
+    socket.on("mise-a-jour-inscriptions", () => {
+      console.log("🔄 Mise à jour des inscriptions demandée !");
+    });
+
+    // Pour envoyer une nouvelle notification
+
+
+
+    // Gestion de la déconnexion
+    socket.on("disconnect", () => {
+      console.log("🔌 Déconnecté du serveur");
+    });
+  </script>
+</body>
+</html>
