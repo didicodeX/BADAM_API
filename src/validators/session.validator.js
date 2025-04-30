@@ -16,13 +16,13 @@ export const sessionFormationValidator = [
     .withMessage("La date de début doit être au format ISO"),
 
     body("heureDebut")
-    .optional()
+    .notEmpty()
     .withMessage("L'heure  de début est requise")
     .isString()
     .withMessage("L'heure  de début doit être au format ISO"),
 
     body("heureFin")
-    .optional()
+    .notEmpty()
     .withMessage("L'heure de fin  est requise")
     .isString()
     .withMessage("L'heure  de fin doit être au format ISO"),  
