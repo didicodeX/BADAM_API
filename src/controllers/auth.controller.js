@@ -40,7 +40,7 @@ export const login = async (req, res) => {
 export const logout = (req, res) => {
   res.clearCookie("accessToken", cookieOptions);
 
-  res.json({ message: "Déconnexion" });
+  res.json({ message: "Déconnexion réussie!" });
 };
 
 export const profile = async (req, res) => {
