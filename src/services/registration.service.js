@@ -1,27 +1,27 @@
 import * as RegistrationRepo from "../repositories/registration.repository.js"
 import * as SessionRepo from "../repositories/session.repository.js"
 
-export const createRegistration = async ({ userId, sessionId }) => {
-  const session = await SessionRepo.getSession(sessionId);
-  if (!session) {
-    throw new Error("Session introuvable");
-  }
+import { createNotification } from "./notification.service.js";
 
-  if (session.nbParticipants >= session.maxParticipant) {
-    session.statut = "Expirée";
-    await session.save();
-    throw new Error("La session est complète");
-  }
+import { Session } from "../models/session.model.js";
 
-  session.nbParticipants += 1;
+export const createRegistration = async (data, io) => {
+  const registration = await RegistrationRepo.createRegistration(data);
 
-  if (session.nbParticipants >= session.maxParticipant) {
-    session.statut = "Expirée";
-  }
+  const session = await Session.findById(data.session).populate("formation");
+  const formateurId = session.formation.formateur;
+  const formationTitre = session.formation.titre;
 
-  await session.save();
+  // Créer une notification
+  const notification = await createNotification(formateurId, `Nouvelle inscription pour votre formation "${formationTitre}"`);
 
-  return await RegistrationRepo.createRegistration({ user: userId, session: sessionId });
+  // Notifier en temps réel
+  io.to(`formateur_${formateurId}`).emit("nouvelle-notification", notification);
+
+  // Rafraîchir la liste des inscriptions pour ce formateur
+  io.to(`formateur_${formateurId}`).emit("mise-a-jour-inscriptions");
+
+  return registration;
 };
 
 export const getRegistrations = async () => {

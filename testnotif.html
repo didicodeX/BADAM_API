@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Socket.io</title>
+</head>
+<body>
+  <h1>Test de notification avec Socket.io</h1>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script>
+    // Connecte au serveur Socket.io
+    const socket = io("http://localhost:4500", {
+      withCredentials: true,
+    });
+
+    // Quand connecté
+    socket.on("connect", () => {
+      console.log("✅ Connecté au serveur socket avec l'id :", socket.id);
+    });
+
+    // Quand un message est reçu
+    socket.on("receiveMessage", (data) => {
+      console.log("📨 Nouveau message reçu :", data);
+      alert(`Message reçu : ${data.content}`);
+    });
+
+    // Tu peux aussi émettre un message pour tester
+    function envoyerMessage() {
+      socket.emit("sendMessage", {
+        chatId: "12345",
+        senderId: "user1",
+        content: "Hello depuis le client !",
+      });
+    }
+
+    // Envoi automatique d'un message 2 secondes après connexion
+    setTimeout(envoyerMessage, 2000);
+  </script>
+</body>
+</html>
