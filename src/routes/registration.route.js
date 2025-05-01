@@ -14,7 +14,7 @@ const router = Router();
 
 router.post("/:sessionId", createRegistrationValidator, validate, createRegistration);
 router.get("/:id",getRegistrations);
-router.get("/users/:userId",authorize("admin"), getRegistrationsByUserId);
+router.get("/users/:userId",getRegistrationsByUserId);
 router.get("/sessions/:sessionId",authorize("admin","formateur"),getRegistrationsBySessionId);
 router.delete("/:sessionId",authorize("admin","formateur","apprenti"),deleteRegistration);
 
