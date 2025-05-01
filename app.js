@@ -12,8 +12,6 @@ const app = express();
 const client = isProd ? process.env.CLIENT_URL : "http://localhost:5173";
 const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [client];
 
-const app = express();
-
 app.use(
   cors({
     origin: allowedOrigins,
