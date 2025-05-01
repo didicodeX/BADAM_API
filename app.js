@@ -1,18 +1,25 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import http from "http";
-import cors from "cors"; // Garder cette ligne d'import
-import routes from "./src/routes/index.js";
+import cors from "cors";
 import { Server } from "socket.io";
+
+import routes from "./src/routes/index.js";
+import { isProd } from "./src/config/cookie.config.js";
 
 const app = express();
 
-// Utilisation de CORS
-app.use(cors({
-  origin: "http://127.0.0.1:5500", // ou "http://localhost:5500"
-credentials: true// Tu peux adapter selon ton besoin
-  
-}));
+const client = isProd ? process.env.CLIENT_URL : "http://localhost:5173";
+const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [client];
+
+const app = express();
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
@@ -26,7 +33,7 @@ const server = http.createServer(app);
 // Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: "http://127.0.0.1:5500", // ou "http://localhost:5500"
+    origin: allowedOrigins,
 credentials: true
   },
 });
@@ -97,8 +104,6 @@ io.on("connection", (socket) => {
     console.log("🔌 Utilisateur déconnecté :", socket.id);
   });
 
-  
-  
 });
 
 

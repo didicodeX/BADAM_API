@@ -34,7 +34,7 @@ router.use(
   formationRoutes
 );
 
-router.use("/sessions", authenticate, sessionRoutes);
+router.use("/sessions", sessionRoutes);
 
 router.use("/avis", authenticate,  avisRoutes);
 

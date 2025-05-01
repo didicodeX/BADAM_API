@@ -12,10 +12,10 @@ import { authorize } from "../middlewares/authorize.middleware.js";
 
 const router = Router();
 
-router.post("/", createRegistrationValidator, validate, createRegistration);
-router.get("/:id",authorize("admin"),getRegistrations);
-router.get("/users/:userId",authorize("admin"), getRegistrationsByUserId);
+router.post("/:sessionId", createRegistrationValidator, validate, createRegistration);
+router.get("/:id",getRegistrations);
+router.get("/users/:userId",getRegistrationsByUserId);
 router.get("/sessions/:sessionId",authorize("admin","formateur"),getRegistrationsBySessionId);
-router.delete("/:id",authorize("admin","formateur","apprenti"),deleteRegistration);
+router.delete("/:sessionId",authorize("admin","formateur","apprenti"),deleteRegistration);
 
 export default router;

@@ -15,6 +15,18 @@ export const sessionFormationValidator = [
     .isISO8601()
     .withMessage("La date de début doit être au format ISO"),
 
+    body("heureDebut")
+    .notEmpty()
+    .withMessage("L'heure  de début est requise")
+    .isString()
+    .withMessage("L'heure  de début doit être au format ISO"),
+
+    body("heureFin")
+    .notEmpty()
+    .withMessage("L'heure de fin  est requise")
+    .isString()
+    .withMessage("L'heure  de fin doit être au format ISO"),  
+
   body("dateFin")
     .notEmpty()
     .withMessage("La date de fin est requise")

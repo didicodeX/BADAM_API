@@ -10,7 +10,6 @@ const FormationSchema = new mongoose.Schema({
     require: true,
   },
   nbvues: { type: Number },
-  
   media: {
     type: [String],
   },

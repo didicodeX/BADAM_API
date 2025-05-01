@@ -13,7 +13,8 @@ export const login = async (email, password) => {
 
   if (!existUser) throw new Error("Utilisateur introuvable");
 
-  const isPasswordCorrect = bcrypt.compare(password, existUser.password);
+  const isPasswordCorrect = bcrypt.compareSync(password, existUser.password);
+  console.log(isPasswordCorrect)
   if (!isPasswordCorrect) throw new Error("Mot de passe incorrect");
 
   const accessToken = jwt.sign(

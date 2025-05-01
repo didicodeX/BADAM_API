@@ -9,6 +9,7 @@ const SessionSchema = new mongoose.Schema({
   nbParticipants: {
     type: Number,
   },
+  adressSession: { type: String },
   dateDebut: {
     type: Date,
     required: true,
@@ -16,6 +17,16 @@ const SessionSchema = new mongoose.Schema({
   dateFin: {
     type: Date,
     required: true,
+  },
+  heureDebut: {
+    type: String,
+    required: true,
+     match: /^([0-1]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/
+  },
+  heureFin: {
+    type: String,
+    required: true,
+     match: /^([0-1]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/
   },
   coverImage:{type:String,},
 
