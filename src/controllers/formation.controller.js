@@ -5,11 +5,12 @@ export const createFormation = async (req, res) => {
   try {
     console.log(req.files);
     
-    const images = (req.files?.image || []).map(file => file.path); 
-    const videos = (req.files?.video || []).map(file => file.path);
-    const media = [...images, ...videos];
+    const images = (req.files?.images || []).map(file => file.path); 
+    const videos = (req.files?.videos || []).map(file => file.path);
 
-    req.body.media = media; 
+
+    req.body.images = images; 
+    req.body.videos = videos; 
     const formation = await formationService.createFormation(req.body,id);
     res.status(201).json(formation);
   } catch (err) {

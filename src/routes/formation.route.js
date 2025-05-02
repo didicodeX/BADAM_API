@@ -15,8 +15,8 @@ import { upload } from "../middlewares/upload.middleware.js";
 const router = Router();
 
 router.post("/", upload.fields([
-  { name: "image", maxCount: 5 },
-  { name: "video", maxCount: 2 },
+  { name: "images", maxCount: 5 },
+  { name: "videos", maxCount: 2 },
 ]), createFormationValidator, validate, createFormation);
 
 router.get("/", getAllFormation);
