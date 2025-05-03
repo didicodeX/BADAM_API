@@ -24,7 +24,7 @@ export const getRegistrations = async (req, res) => {
 
 export const getRegistrationsByUserId = async (req, res) => {
   try {
-    const registrations = await RegistrationService.getRegistrationsByUserId(req.user);
+    const registrations = await RegistrationService.getRegistrationsByUserId(req.user.id);
     res.status(200).json(registrations);
   } catch (err) {
     res.status(400).json({ error: err.message });

@@ -54,9 +54,7 @@ export const getSessionsByFormation = async (req, res) => {
 };
 
 export const getSessionsByUser = async (req, res) => {
-  const userId = req.params.userId;
-  
-
+  const userId = req.user.id;
   try {
     const sessions = await sessionService.getSessionsByUser(userId);
     res.status(200).json(sessions);
