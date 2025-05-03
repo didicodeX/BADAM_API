@@ -6,27 +6,17 @@ const SessionSchema = new mongoose.Schema({
     ref: "Formation",
     required: true,
   },
-  nbParticipants: {
+  maxNbParticipants: {
     type: Number,
   },
-  adressSession: { type: String },
-  dateDebut: {
+  address: { type: String },
+  startDateTime: {
     type: Date,
     required: true,
   },
-  dateFin: {
+  endDateTime: {
     type: Date,
     required: true,
-  },
-  heureDebut: {
-    type: String,
-    required: true,
-     match: /^([0-1]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/
-  },
-  heureFin: {
-    type: String,
-    required: true,
-     match: /^([0-1]\d|2[0-3]):([0-5]\d)(:[0-5]\d)?$/
   },
   coverImage:{type:String,},
 
@@ -35,6 +25,8 @@ const SessionSchema = new mongoose.Schema({
     enum: ["Disponible", "Expirée"],
     default: "Disponible",
   },
+},  {
+  timestamps: true, 
 });
 
 export const Session = mongoose.model(
