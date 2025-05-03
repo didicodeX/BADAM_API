@@ -1,16 +1,17 @@
 import mongoose from "mongoose";
 
 const wishlistSchema = new mongoose.Schema({
-  sessionId: {
+  session: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Session",
-    require: true,
+    required: true,
   },
-  userId: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    require: true,
+    required: true,
   },
+  
 });
 
 export const Wishlist = mongoose.model("wishlist", wishlistSchema);

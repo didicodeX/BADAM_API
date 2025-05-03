@@ -1,9 +1,9 @@
 import mongoose from "mongoose";
 
-const FormationSchema = new mongoose.Schema({
-  titre: { type: String },
+const TrainingSchema = new mongoose.Schema({
+  title: { type: String },
   description: { type: String },
-  formateur: {
+  instructor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
@@ -16,4 +16,4 @@ const FormationSchema = new mongoose.Schema({
   },
 });
 
-export const Formation = mongoose.model("Formation", FormationSchema);
+export const Training = mongoose.model("Training", TrainingSchema);

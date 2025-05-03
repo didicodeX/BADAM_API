@@ -2,16 +2,18 @@ import mongoose from "mongoose";
 
 const ChatSchema = new mongoose.Schema(
   {
-    user: [{
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      require: true,
-    }],
-    dernierMessage: {
-      contenu: String,
+    users: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+    ],
+    lastMessage: {
+      content: String,
       date: Date,
     },
-    archivé: { type: Boolean, default: false },
+    archived: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

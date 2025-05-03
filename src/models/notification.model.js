@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const NotificationSchema = new mongoose.Schema({
-  formateur: {
+  instructor: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,

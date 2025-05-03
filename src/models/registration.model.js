@@ -1,16 +1,16 @@
 import mongoose from "mongoose";
 
 const RegistrationSchema = new mongoose.Schema({
-  dateInscription: { type: Date, default: Date.now },
-  user: {
+  registrationDate: { type: Date, default: Date.now },
+  participant: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    require: true,
+    required: true,
   },
   session: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Session",
-    require: true,
+    required: true,
   },
 });
 

@@ -9,7 +9,7 @@ export const authenticate = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded; //ajouter les informations de l'utilisateur a la requete
+    req.user = decoded; //ajouter les inTrainings de l'utilisateur a la requete
 
     next(); //Passe a la fonction suivante
   } catch (err) {

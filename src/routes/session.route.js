@@ -4,27 +4,41 @@ import {
   createSession,
   getAllSessions,
   getSession,
-  getSessionsByFormation,getSessionsByFormationTitle,
+  getSessionsByTraining,
+  getSessionsByTrainingTitle,
   updateSession,
   deleteSession,
-  getAvisBySessionId,getSessionsByUser
+  getReviewBySessionId,
+  getSessionsByUser,
+  getSessionsWithCount
 } from "../controllers/session.controller.js";
-import { sessionFormationValidator } from "../validators/session.validator.js";
+import { sessionTrainingValidator } from "../validators/session.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
 
 const router = Router();
 
-router.get("/me",authenticate, getSessionsByUser);
-router.post("/:formationId", authenticate,sessionFormationValidator, validate, createSession);
+router.get("/me", authenticate, getSessionsByUser);
+router.post(
+  "/:trainingId",
+  authenticate,
+  sessionTrainingValidator,
+  validate,
+  createSession
+);
 router.get("/", getAllSessions);
-router.get("/search", getSessionsByFormationTitle);
-router.get("/:id",authenticate, getSession);
-router.get("/formation/:formationId", getSessionsByFormation);
+router.get("/search", getSessionsByTrainingTitle);
+router.get("/:id", authenticate, getSession);
+router.get("/training/:trainingId", getSessionsByTraining);
 
+router.patch(
+  "/:id",
+  authenticate,
+  sessionTrainingValidator,
+  validate,
+  updateSession
+);
+router.delete(":id", authenticate, deleteSession);
+router.get("/:id/review", getReviewBySessionId);
 
-router.patch("/:id", authenticate,sessionFormationValidator, validate, updateSession);
-router.delete(":id", authenticate,deleteSession);
-router.get("/:id/avis", getAvisBySessionId);
-
-
+router.get("/with-participant-count", getSessionsWithCount);
 export default router;

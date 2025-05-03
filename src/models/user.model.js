@@ -10,8 +10,8 @@ const UserSchema = new mongoose.Schema(
     phone: { type: String },
     roles: {
       type: [String],
-      enum: ["apprenti", "formateur", "admin", "superAdmin"],
-      default: ["apprenti"],
+      enum: ["apprentice", "instructor", "admin", "superAdmin"],
+      default: ["apprentice"],
     },
   },
   {

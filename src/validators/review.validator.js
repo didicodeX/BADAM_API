@@ -1,6 +1,6 @@
 import { body } from "express-validator";
 
-export const avisValidator = [
+export const reviewValidator = [
   body("comment")
     .optional()
     .isString()
@@ -11,15 +11,10 @@ export const avisValidator = [
     .isNumeric()
     .withMessage("La note doit être un nombre"),
 
-  body("dateAvis")
+  body("dateReview")
     .notEmpty()
     .withMessage("La date de début est requise")
     .isISO8601()
     .toDate()
     .withMessage("La date de début doit être une date valide"),
-
-  
-
-
-    
 ];

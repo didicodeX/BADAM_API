@@ -1,35 +1,34 @@
 import mongoose from "mongoose";
 
-const SessionSchema = new mongoose.Schema({
-  formation: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Formation",
-    required: true,
+const SessionSchema = new mongoose.Schema(
+  {
+    training: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Training",
+      required: true,
+    },
+    maxParticipants: {
+      type: Number,
+    },
+    address: { type: String },
+    startDateTime: {
+      type: Date,
+      required: true,
+    },
+    endDateTime: {
+      type: Date,
+      required: true,
+    },
+    coverImage: { type: String },
+    status: {
+      type: String,
+      enum: ["Available", "Expired"],
+      default: "Available",
+    },
   },
-  maxNbParticipants: {
-    type: Number,
-  },
-  address: { type: String },
-  startDateTime: {
-    type: Date,
-    required: true,
-  },
-  endDateTime: {
-    type: Date,
-    required: true,
-  },
-  coverImage:{type:String,},
-
-  statut: {
-    type: String,
-    enum: ["Disponible", "Expirée"],
-    default: "Disponible",
-  },
-},  {
-  timestamps: true, 
-});
-
-export const Session = mongoose.model(
-  "Session",
-  SessionSchema
+  {
+    timestamps: true,
+  }
 );
+
+export const Session = mongoose.model("Session", SessionSchema);

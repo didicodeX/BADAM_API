@@ -19,9 +19,9 @@
     socket.on("connect", () => {
       console.log("✅ Connecté avec le socket id :", socket.id);
 
-      // Rejoindre la salle du formateur
-      socket.emit("join-formateur-room", "67ffa6c1a51a450173d495c5");
-      console.log("📚 Rejoint la salle du formateur !");
+      // Rejoindre la salle du instructor
+      socket.emit("join-instructor-room", "67ffa6c1a51a450173d495c5");
+      console.log("📚 Rejoint la salle du instructor !");
     });
 
     // Écouter les nouvelles notifications

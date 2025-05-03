@@ -5,7 +5,7 @@ export const addToWishlist = (userId, sessionId) => {
 }
 
 export const getUserWishlist = (userId) => {
-    return Wishlist.find({ userId }).populate("sessionId");
+    return Wishlist.find({ userId }).populate("session");
 };
 
 export const removeFromWishlist = (userId, sessionId) => {

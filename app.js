@@ -32,23 +32,23 @@ const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
-credentials: true
+    credentials: true,
   },
 });
 
 app.set("io", io);
 // D'abord, définis les routes HTTP
-app.post('/registrations/:id', (req, res) => {
+app.post("/registrations/:id", (req, res) => {
   const { id } = req.params;
   const { name, email } = req.body;
-  
+
   console.log(`Création d'une inscription pour l'utilisateur ${id}`);
   console.log(`Infos reçues :`, { name, email });
-  
+
   res.status(201).json({
-    message: 'Inscription réussie',
+    message: "Inscription réussie",
     userId: id,
-    data: { name, email }
+    data: { name, email },
   });
 });
 io.on("connection", (socket) => {
@@ -59,16 +59,16 @@ io.on("connection", (socket) => {
     console.log(`🟢 Socket ${socket.id} a rejoint le chat ${chatId}`);
   });
 
-
-
-  socket.on("join-formateur-room", (formateurId) => {
-    const roomName = `formateur_${formateurId}`;
+  socket.on("join-instructor-room", (instructorId) => {
+    const roomName = `instructor_${instructorId}`;
     socket.join(roomName);
-    console.log(`📚 Formateur ${formateurId} rejoint sa salle privée avec socket ${socket.id}`);
+    console.log(
+      `📚 instructor ${instructorId} rejoint sa salle privée avec socket ${socket.id}`
+    );
 
-    // Notifier la salle du formateur
+    // Notifier la salle du instructor
     io.to(roomName).emit("nouvelle-notification", {
-      message: "Un nouvel élève s'est inscrit ! 🎉"
+      message: "Un nouvel élève s'est inscrit ! 🎉",
     });
 
     io.to(roomName).emit("mise-a-jour-inscriptions");
@@ -76,14 +76,13 @@ io.on("connection", (socket) => {
     // Test automatique : notification après 5 secondes
     setTimeout(() => {
       io.to(roomName).emit("nouvelle-notification", {
-        message: "🚀 Test de notification automatique !"
+        message: "🚀 Test de notification automatique !",
       });
 
       io.to(roomName).emit("mise-a-jour-inscriptions");
     }, 5000);
   });
 
-  
   // Réception et rediffusion d’un message
   socket.on("sendMessage", (messageData) => {
     const { chatId, senderId, content } = messageData;
@@ -101,10 +100,7 @@ io.on("connection", (socket) => {
   socket.on("disconnect", () => {
     console.log("🔌 Utilisateur déconnecté :", socket.id);
   });
-
 });
-
-
 
 export { server };
 export default app;

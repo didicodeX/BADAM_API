@@ -1,9 +1,11 @@
 import { Notification } from "../models/notification.model.js";
 
-export const createNotification = async (formateurId, message) => {
-  return await Notification.create({ formateur: formateurId, message });
+export const createNotification = async (instructorId, message) => {
+  return await Notification.create({ instructor: instructorId, message });
 };
 
-export const getNotificationsByFormateurId = async (formateurId) => {
-  return await Notification.find({ formateur: formateurId }).sort({ createdAt: -1 });
+export const getNotificationsByinstructorId = async (instructorId) => {
+  return await Notification.find({ instructor: instructorId }).sort({
+    createdAt: -1,
+  });
 };
