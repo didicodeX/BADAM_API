@@ -14,12 +14,13 @@ import { validate } from "../middlewares/validate.middleware.js";
 
 const router = Router();
 
+router.get("/me",authenticate, getSessionsByUser);
 router.post("/:formationId", authenticate,sessionFormationValidator, validate, createSession);
 router.get("/", getAllSessions);
 router.get("/search", getSessionsByFormationTitle);
 router.get("/:id",authenticate, getSession);
 router.get("/formation/:formationId", getSessionsByFormation);
-router.get("/user/:userId",authenticate, getSessionsByUser);
+
 
 router.patch("/:id", authenticate,sessionFormationValidator, validate, updateSession);
 router.delete(":id", authenticate,deleteSession);

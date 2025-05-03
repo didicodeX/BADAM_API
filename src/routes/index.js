@@ -30,7 +30,6 @@ router.use("/users",authenticate, userRoutes);
 router.use(
   "/formations",
   authenticate,
-  authorize("formateur"),
   formationRoutes
 );
 

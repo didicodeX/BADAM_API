@@ -43,7 +43,8 @@ export const getFormation = async (req, res) => {
 };
 
 export const getCreateFormationsByUser = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.user.id;
+  
   try {
     const formations = await formationService.getFormationsCreateByUser(userId);
     if (!formations) {
@@ -56,7 +57,7 @@ export const getCreateFormationsByUser = async (req, res) => {
 };
 
 export const getFormationsByUser = async (req, res) => {
-  const userId = req.params.userId;
+  const userId = req.user.userId;
 
   try {
     const formations = await formationService.getFormationsByUser(userId);
