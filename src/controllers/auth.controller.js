@@ -25,12 +25,7 @@ export const login = async (req, res) => {
 
     res.status(200).json({
       message: "Connexion réussie!",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        roles: user.roles,
-      },
+      user
     });
   } catch (err) {
     res.status(400).json({ message: err.message });

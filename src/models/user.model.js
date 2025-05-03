@@ -3,14 +3,15 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema(
   {
     name: { type: String },
-    email: { type: String, unique: true, required: true },
+    email: { type: String, unique: true, required: true, lowercase: true },
     password: { type: String },
     avatar: { type: String },
     bio: { type: String },
+    phone: { type: String },
     roles: {
       type: [String],
       enum: ["apprenti", "formateur", "admin", "superAdmin"],
-      default: "apprenti",
+      default: ["apprenti"],
     },
   },
   {

@@ -22,6 +22,15 @@ export const createUser = async (userData) => {
 };
 
 export const updateUser = async (id, updatedData) => {
+  const user = await userRepo.findById(id);
+  if (!user) throw new Error("Utilisateur introuvable");
+
+  // Si un mot de passe est fourni, on le hash ici
+  if (updatedData.password) {
+    const salt = await bcrypt.genSalt(10);
+    updatedData.password = await bcrypt.hash(updatedData.password, salt);
+  }
+
   return await userRepo.updateUser(id, updatedData);
 };
 

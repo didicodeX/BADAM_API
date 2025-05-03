@@ -29,13 +29,8 @@ export const createUser = async (req, res) => {
   try {
     const newUser = await userService.createUser(req.body);
     res.status(201).json({
-      message: "Utilisateur créé avec succès",
-      user: {
-        id: newUser._id,
-        name: newUser.name,
-        email: newUser.email,
-        roles: newUser.roles,
-      },
+      message: "Compte créé avec succès",
+      user: newUser,
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -51,12 +46,12 @@ export const updateUser = async (req, res) => {
 
     // 👇 Gestion avatar (un seul fichier)
     if (req.file) {
-      updatedData.avatar = req.file.path; // 👈 URL Cloudinary
+      updatedData.avatar = req.file.path;
     }
 
     const updatedUser = await userService.updateUser(id, updatedData);
 
-    res.json(updatedUser);
+    res.json({ message: "Profil mis à jour avec succès", user: updatedUser });
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
@@ -89,7 +84,7 @@ export const deleteUser = async (req, res) => {
       return res.status(404).json({ message: "Utilisateur non trouvé" });
     }
 
-    res.json({ message: "Utilisateur supprimé avec succès" });
+    res.json({ message: "Compte supprimé avec succès" });
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
