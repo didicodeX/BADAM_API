@@ -2,12 +2,12 @@ import { Router } from "express";
 import authRoutes from "../routes/auth.route.js";
 import userRoutes from "../routes/user.route.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
-import TrainingRoutes from "../routes/Training.route.js";
+import trainingRoutes from "../routes/training.route.js";
 import sessionRoutes from "../routes/session.route.js";
 import registrationRoutes from "../routes/registration.route.js";
 import wishlistRoutes from "../routes/wishlist.route.js";
-import ReviewRoutes from "../routes/Review.route.js";
-import notificationRoutes from "../routes/Review.route.js";
+import reviewRoutes from "../routes/review.route.js";
+import notificationRoutes from "../routes/notification.route.js";
 
 const router = Router();
 
@@ -19,11 +19,11 @@ router.use("/auth", authRoutes);
 
 router.use("/users", authenticate, userRoutes);
 
-router.use("/trainings", authenticate, TrainingRoutes);
+router.use("/trainings", authenticate, trainingRoutes);
 
 router.use("/sessions", sessionRoutes);
 
-router.use("/teview", authenticate, ReviewRoutes);
+router.use("/teview", authenticate, reviewRoutes);
 
 router.use("/registrations", authenticate, registrationRoutes);
 
