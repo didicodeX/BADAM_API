@@ -1,7 +1,7 @@
 import { body } from "express-validator";
 
 export const createTrainingValidator = [
-  body("titre").notEmpty().withMessage("Le titre est requis"),
+  body("title").notEmpty().withMessage("Le titre est requis"),
 
   body("description").notEmpty().withMessage("La description est requise"),
 ];

@@ -13,8 +13,8 @@ const storage = new CloudinaryStorage({
     let folder = "projects/BADAM/others"; // par défaut
     if (folderType === "avatar") {
       folder = "projects/BADAM/avatars";
-    } else if (folderType === "Training") {
-      folder = "projects/BADAM/Trainings";
+    } else if (folderType === "training") {
+      folder = "projects/BADAM/trainings";
     }
 
     return {

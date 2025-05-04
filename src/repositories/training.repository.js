@@ -23,7 +23,7 @@ export const getTraining = async (id) => {
 export const getTrainingsCreateByUser = async (userId) => {
   return await Training.find({ instructor: userId }).populate(
     "instructor",
-    "name"
+    "name bio"
   );
 };
 

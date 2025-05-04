@@ -1,4 +1,4 @@
-import * as TrainingService from "../services/Training.service.js";
+import * as trainingService from "../services/training.service.js";
 
 export const createTraining = async (req, res) => {
   const { id } = req.user;
@@ -10,8 +10,8 @@ export const createTraining = async (req, res) => {
 
     req.body.images = images;
     req.body.videos = videos;
-    const Training = await TrainingService.createTraining(req.body, id);
-    res.status(201).json(Training);
+    const training = await trainingService.createTraining(req.body, id);
+    res.status(201).json(training);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -19,8 +19,8 @@ export const createTraining = async (req, res) => {
 
 export const getAllTraining = async (req, res) => {
   try {
-    const Trainings = await TrainingService.getAllTraining();
-    res.status(201).json(Trainings);
+    const trainings = await trainingService.getAllTraining();
+    res.status(201).json(trainings);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -29,13 +29,13 @@ export const getAllTraining = async (req, res) => {
 export const getTraining = async (req, res) => {
   try {
     const id = req.params.id;
-    const Training = await TrainingService.getTraining(id);
+    const training = await trainingService.getTraining(id);
 
-    if (!Training) {
+    if (!training) {
       return res.status(404).json({ message: "Training non trouvée" });
     }
 
-    res.status(200).json(Training);
+    res.status(200).json(training);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -45,11 +45,11 @@ export const getCreateTrainingsByUser = async (req, res) => {
   const userId = req.user.id;
 
   try {
-    const Trainings = await TrainingService.getTrainingsCreateByUser(userId);
-    if (!Trainings) {
+    const trainings = await trainingService.getTrainingsCreateByUser(userId);
+    if (!trainings) {
       return res.status(404).json({ message: "Training non trouvée" });
     }
-    res.status(200).json(Trainings);
+    res.status(200).json(trainings);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -59,7 +59,7 @@ export const getTrainingsByUser = async (req, res) => {
   const userId = req.user.userId;
 
   try {
-    const Trainings = await TrainingService.getTrainingsByUser(userId);
+    const Trainings = await trainingService.getTrainingsByUser(userId);
     res.status(200).json(Trainings);
   } catch (error) {
     res
@@ -73,7 +73,7 @@ export const updateTraining = async (req, res) => {
     const id = req.params.id;
     const updatedData = req.body;
 
-    const updatedTraining = await TrainingService.updateTraining(
+    const updatedTraining = await trainingService.updateTraining(
       id,
       updatedData,
       {
@@ -94,7 +94,7 @@ export const updateTraining = async (req, res) => {
 export const deleteTraining = async (req, res) => {
   try {
     const id = req.params.id;
-    const deletedTraining = await TrainingService.deleteTraining(id);
+    const deletedTraining = await trainingService.deleteTraining(id);
 
     if (!deletedTraining) {
       return res.status(404).json({ message: "Training non trouvée" });
@@ -110,9 +110,9 @@ export const deleteTraining = async (req, res) => {
 
 export const getReviewByTraining = async (req, res) => {
   try {
-    const TrainingId = req.params.id;
-    const Review = await TrainingService.getReviewByTrainingId(TrainingId);
-    res.status(200).json(Review);
+    const trainingId = req.params.id;
+    const review = await trainingService.getReviewByTrainingId(trainingId);
+    res.status(200).json(review);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
