@@ -1,6 +1,6 @@
 import { Review } from "../models/review.model.js";
 import { Session } from "../models/session.model.js";
-//import { Training } from "../models/Training.js";
+//import { Training } from "../models/training.js";
 
 export const createReview = async (data, sessionId, userId) => {
   return await Review.create({
@@ -22,8 +22,8 @@ export const getReviewByUser = async (userId) => {
   return await Review.find({ user: userId });
 };
 
-export const getReviewByTraining = async (TrainingId) => {
-  const sessions = await Session.find({ Training: TrainingId }, { _id: 1 });
+export const getReviewByTraining = async (trainingId) => {
+  const sessions = await Session.find({ training: trainingId }, { _id: 1 });
   const sessionIds = sessions.map((s) => s._id);
 
   return await Review.find({ session: { $in: sessionIds } })
@@ -66,7 +66,7 @@ export const getTopRatedTrainings = async () => {
     {
       $group: {
         _id: "$training._id",
-        Training: { $first: "$training" },
+        training: { $first: "$training" },
         averageNote: { $avg: "$note" },
         totalReview: { $sum: 1 },
       },

@@ -6,14 +6,14 @@ import { Session } from "../models/session.model.js";
 export const createRegistration = async (data, io) => {
   const registration = await registrationRepo.createRegistration(data);
 
-  const session = await Session.findById(data.session).populate("Training");
+  const session = await Session.findById(data.session).populate("training");
   const instructorId = session.training.instructor;
   const TrainingTitre = session.training.titre;
 
   // Créer une notification
   const notification = await createNotification(
     instructorId,
-    `Nouvelle inscription pour votre Training "${TrainingTitre}"`
+    `Nouvelle inscription pour votre session "${TrainingTitre}"`
   );
 
   // Notifier en temps réel

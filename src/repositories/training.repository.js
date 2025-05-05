@@ -1,6 +1,7 @@
 import { Training } from "../models/training.model.js";
 import { Session } from "../models/session.model.js";
 import { Registration } from "../models/registration.model.js";
+import { Review } from "../models/review.model.js";
 
 export const createTraining = async (data, id) => {
   return await Training.create({ ...data, instructor: id });
@@ -17,6 +18,13 @@ export const getTraining = async (id) => {
   return await Training.findById(id).populate({
     path: "instructor",
     select: "name -_id",
+  });
+};
+
+export const getTrainingImages = async (id) => {
+  return await Training.findById(id).populate({
+    path: "instructor",
+    select: "images",
   });
 };
 
@@ -50,12 +58,12 @@ export const deleteTraining = async (id) => {
   return await Training.findByIdAndDelete(id);
 };
 
-export const getReviewByTrainingId = async (TrainingId) => {
-  const sessions = await Session.find({ Training: TrainingId }).select("_id");
+export const getReviewByTrainingId = async (trainingId) => {
+  const sessions = await Session.find({ training: trainingId }).select("_id");
   console.log("Sessions trouvées:", sessions);
 
   const sessionIds = sessions.map((s) => s._id);
-  const Review = await Review.find({ session: { $in: sessionIds } })
+  const review = await Review.find({ session: { $in: sessionIds } })
     .populate({
       path: "session",
       select: "startDateTime endDateTime status",

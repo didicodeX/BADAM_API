@@ -2,8 +2,8 @@ import { Session } from "../models/session.model.js";
 import { Review } from "../models/review.model.js";
 import { Registration } from "../models/registration.model.js";
 
-export const createSession = async (data, userId, TrainingId) => {
-  return await Session.create({ ...data, user: userId, Training: TrainingId });
+export const createSession = async (data, userId, trainingId) => {
+  return await Session.create({ ...data, user: userId, training: trainingId });
 };
 
 export const getAllSessions = async () => {
@@ -14,8 +14,8 @@ export const getSession = async (id) => {
   return await Session.findById(id);
 };
 
-export const getSessionsByTraining = async (TrainingId) => {
-  return await Session.find({ Training: TrainingId });
+export const getSessionsByTraining = async (trainingId) => {
+  return await Session.find({ training: trainingId });
 };
 
 export const getSessionsByUser = async (userId) => {

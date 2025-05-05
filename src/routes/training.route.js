@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createTraining,
+  createTrainingMulter,
   getAllTraining,
   getTraining,
   updateTraining,
@@ -9,21 +10,23 @@ import {
   getTrainingsByUser,
   getCreateTrainingsByUser,
 } from "../controllers/training.controller.js";
-import { createTrainingValidator } from "../validators/Training.validator.js";
+import { createTrainingValidator } from "../validators/training.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
 import { upload } from "../middlewares/upload.middleware.js";
 
 const router = Router();
 
+router.post("/", createTrainingValidator, validate, createTraining);
+
 router.post(
-  "/",
+  "/multer",
   upload.fields([
     { name: "images", maxCount: 5 },
-    { name: "videos", maxCount: 2 },
+    { name: "videos", maxCount: 3 },
   ]),
   createTrainingValidator,
   validate,
-  createTraining
+  createTrainingMulter
 );
 
 router.get("/", getAllTraining);
@@ -33,7 +36,7 @@ router.get("/:id", getTraining);
 router.get("/:userId", getTrainingsByUser);
 router.get("/user/:userId", getTrainingsByUser);
 
-//GET /Trainings/:id/Review — Voir tous les Review d’une Training, via ses sessions
+//GET /trainings/:id/reviews — Voir tous les avis d’une formation, via ses sessions
 router.patch("/:id", createTrainingValidator, validate, updateTraining);
 
 router.delete("/:id", deleteTraining);

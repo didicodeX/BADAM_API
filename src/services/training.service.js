@@ -20,13 +20,13 @@ export const getTrainingsByUser = async (userId) => {
   const registrations = await trainingRepo.getTrainingsByUser(userId);
 
   // Extraire les Trainings depuis les sessions des inscriptions
-  const Trainings = registrations
-    .map((reg) => reg.session?.Training)
-    .filter((Training) => Training); // s'assurer que ce n’est pas null
+  const trainings = registrations
+    .map((reg) => reg.session?.training)
+    .filter((training) => training); // s'assurer que ce n’est pas null
 
-  // Supprimer les doublons si nécessaire (même Training dans plusieurs sessions)
+  // Supprimer les doublons si nécessaire (même formation dans plusieurs sessions)
   const uniqueTrainings = Array.from(
-    new Map(Trainings.map((f) => [f._id.toString(), f])).values()
+    new Map(trainings.map((f) => [f._id.toString(), f])).values()
   );
 
   return uniqueTrainings;

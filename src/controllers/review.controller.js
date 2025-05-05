@@ -1,16 +1,16 @@
-import * as ReviewService from "../services/review.service.js";
+import * as reviewService from "../services/review.service.js";
 
 export const createReview = async (req, res) => {
   const { id: userId } = req.user;
   const { sessionId } = req.params;
 
   try {
-    const Review = await ReviewService.createReview(
+    const review = await reviewService.createreview(
       req.body,
       sessionId,
       userId
     );
-    res.status(201).json(Review);
+    res.status(201).json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -18,8 +18,8 @@ export const createReview = async (req, res) => {
 
 export const getAllReview = async (req, res) => {
   try {
-    const Review = await ReviewService.getAllReview();
-    res.json(Review);
+    const review = await reviewService.getAllReview();
+    res.json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -28,13 +28,13 @@ export const getAllReview = async (req, res) => {
 export const getReview = async (req, res) => {
   try {
     const id = req.params.id;
-    const Review = await ReviewService.getReview(id);
+    const review = await reviewService.getReview(id);
 
-    if (!Review) {
-      return res.status(404).json({ message: "Review non trouvée" });
+    if (!review) {
+      return res.status(404).json({ message: "Avis non trouvée" });
     }
 
-    res.status(200).json(Review);
+    res.status(200).json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -43,13 +43,13 @@ export const getReview = async (req, res) => {
 export const getReviewByTraining = async (req, res) => {
   try {
     const id = req.params.TrainingId;
-    const Review = await ReviewService.getReviewByTraining(id);
+    const review = await reviewService.getReviewByTraining(id);
 
-    if (!Review) {
-      return res.status(404).json({ message: "Review non trouvée" });
+    if (!review) {
+      return res.status(404).json({ message: "Avis non trouvée" });
     }
 
-    res.status(200).json(Review);
+    res.status(200).json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -58,13 +58,13 @@ export const getReviewByTraining = async (req, res) => {
 export const getReviewByUser = async (req, res) => {
   try {
     const id = req.params.userId;
-    const Review = await ReviewService.getReviewByUser(id);
+    const review = await reviewService.getReviewByUser(id);
 
-    if (!Review) {
-      return res.status(404).json({ message: "Review non trouvée" });
+    if (!review) {
+      return res.status(404).json({ message: "Avis non trouvée" });
     }
 
-    res.status(200).json(Review);
+    res.status(200).json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -73,13 +73,13 @@ export const getReviewByUser = async (req, res) => {
 export const getReviewBySession = async (req, res) => {
   try {
     const id = req.params.sessionId;
-    const Review = await ReviewService.getReviewBySession(id);
+    const review = await reviewService.getReviewBySession(id);
 
-    if (!Review) {
-      return res.status(404).json({ message: "Review non trouvée" });
+    if (!review) {
+      return res.status(404).json({ message: "Avis non trouvée" });
     }
 
-    res.status(200).json(Review);
+    res.status(200).json(review);
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -90,12 +90,12 @@ export const updateReview = async (req, res) => {
     const id = req.params.id;
     const updatedData = req.body;
 
-    const updatedReview = await ReviewService.updateReview(id, updatedData, {
+    const updatedReview = await reviewService.updateReview(id, updatedData, {
       new: true,
     });
 
     if (!updatedReview) {
-      return res.status(404).json({ message: "Review non trouvée" });
+      return res.status(404).json({ message: "Avis non trouvée" });
     }
 
     res.status(200).json(updatedReview);
@@ -107,15 +107,15 @@ export const updateReview = async (req, res) => {
 export const deleteReview = async (req, res) => {
   try {
     const id = req.params.id;
-    const deletedReview = await ReviewService.deleteReview(id);
+    const deletedReview = await reviewService.deleteReview(id);
 
     if (!deletedReview) {
-      return res.status(404).json({ message: "Review non trouvée" });
+      return res.status(404).json({ message: "Avis non trouvée" });
     }
 
     res
       .status(200)
-      .json(deleteReview, { message: "Review supprimée avec succès" });
+      .json(deleteReview, { message: "Avis supprimée avec succès" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -127,7 +127,7 @@ export const getReviewTopRatedBYSession = async (id) => {
 
 export const getTopRatedTrainings = async (req, res) => {
   try {
-    const topTrainings = await ReviewService.getTopRatedTrainings();
+    const topTrainings = await reviewService.getTopRatedTrainings();
     res.status(200).json(topTrainings);
   } catch (error) {
     console.error("Erreur complète :", error); // <--- très important pour debugger
@@ -138,7 +138,7 @@ export const getTopRatedTrainings = async (req, res) => {
 export const getTopRatedSessions = async (req, res) => {
   try {
     const limit = req.query.limit || 5;
-    const sessions = await ReviewService.getTopRatedSessions(limit);
+    const sessions = await reviewService.getTopRatedSessions(limit);
     res.json(sessions);
   } catch (err) {
     res.status(400).json({ error: err.message });

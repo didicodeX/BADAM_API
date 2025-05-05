@@ -3,6 +3,23 @@ import * as trainingService from "../services/training.service.js";
 export const createTraining = async (req, res) => {
   const { id } = req.user;
   try {
+    const { title, description, images, videos } = req.body;
+
+    const training = await trainingService.createTraining(
+      { title, description, images, videos },
+      id
+    );
+
+    res.status(201).json(training);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+
+export const createTrainingMulter = async (req, res) => {
+  const { id } = req.user;
+  try {
     console.log(req.files);
 
     const images = (req.files?.images || []).map((file) => file.path);
@@ -32,7 +49,7 @@ export const getTraining = async (req, res) => {
     const training = await trainingService.getTraining(id);
 
     if (!training) {
-      return res.status(404).json({ message: "Training non trouvée" });
+      return res.status(404).json({ message: "formation non trouvée" });
     }
 
     res.status(200).json(training);
@@ -47,7 +64,7 @@ export const getCreateTrainingsByUser = async (req, res) => {
   try {
     const trainings = await trainingService.getTrainingsCreateByUser(userId);
     if (!trainings) {
-      return res.status(404).json({ message: "Training non trouvée" });
+      return res.status(404).json({ message: "formation non trouvée" });
     }
     res.status(200).json(trainings);
   } catch (error) {
@@ -82,10 +99,12 @@ export const updateTraining = async (req, res) => {
     );
 
     if (!updatedTraining) {
-      return res.status(404).json({ message: "Training non trouvée" });
+      return res.status(404).json({ message: "formation non trouvée" });
     }
 
-    res.status(200).json(updatedTraining);
+    res
+      .status(200)
+      .json({ message: "Formation modifiée avec succès", training: updatedTraining });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -97,12 +116,10 @@ export const deleteTraining = async (req, res) => {
     const deletedTraining = await trainingService.deleteTraining(id);
 
     if (!deletedTraining) {
-      return res.status(404).json({ message: "Training non trouvée" });
+      return res.status(404).json({ message: "formation non trouvée" });
     }
 
-    res.status(200).json(deleteTraining, {
-      message: "Training supprimée avec succès",
-    });
+    res.status(200).json({ message: "formation supprimée avec succès" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
