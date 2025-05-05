@@ -6,11 +6,13 @@ export const createRegistration = async (req, res) => {
     const sessionId = req.params.sessionId;
     const io = req.app.get("io");
     const registration = await registrationService.createRegistration(
-      participantId,
       sessionId,
+      participantId,
       io
     );
-    res.status(201).json({registration: registration, message: "Inscription reussie !"});
+    res
+      .status(201)
+      .json({ registration: registration, message: "Inscription reussie !" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

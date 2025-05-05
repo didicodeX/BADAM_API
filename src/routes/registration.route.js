@@ -18,13 +18,17 @@ router.post(
   validate,
   createRegistration
 );
+
 router.get("/:id", getRegistrations);
+
 router.get("/", getRegistrationsByUserId);
+
 router.get(
   "/sessions/:sessionId",
   authorize("admin", "instructor"),
   getRegistrationsBySessionId
 );
+
 router.delete("/:sessionId", deleteRegistration);
 
 export default router;

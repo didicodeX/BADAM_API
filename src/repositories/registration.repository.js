@@ -4,8 +4,8 @@ import { Registration } from "../models/registration.model.js";
 //   return await Registration.create(data);
 // };
 
-export const createRegistration = async ({ participant, session }) => {
-  return await Registration.create({ participant, session });
+export const createRegistration = async ({ session, participant }) => {
+  return await Registration.create({ session, participant });
 };
 
 export const getRegistrations = async () => {

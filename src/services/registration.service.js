@@ -9,8 +9,8 @@ export const createRegistration = async (sessionId,participantId, io) => {
   }
 
   const registration =  await registrationRepo.createRegistration({
-    participant: participantId,
     session: sessionId,
+    participant: participantId,
   });
 
   // const session = await Session.findById(registration.session).populate("training");
