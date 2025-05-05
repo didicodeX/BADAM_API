@@ -7,6 +7,11 @@ const SessionSchema = new mongoose.Schema(
       ref: "Training",
       required: true,
     },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     maxParticipants: {
       type: Number,
     },

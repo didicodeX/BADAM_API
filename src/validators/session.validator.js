@@ -1,51 +1,30 @@
 import { body } from "express-validator";
 
 export const sessionTrainingValidator = [
-  body("nbParticipants")
-    .isInt()
-    .withMessage("Le nombre de participants doit être superieur a 1 "),
+  body("maxParticipants")
+    .isInt({ min: 1 })
+    .withMessage("Le nombre maximum de participants doit être supérieur à 0"),
 
-  // body("maxParticipants")
-  // .isInt({ min: 1 })
-  // .withMessage("Le max de participants doit être superieur a 1 "),
-
-  body("dateDebut")
+  body("startDateTime")
     .notEmpty()
     .withMessage("La date de début est requise")
     .isISO8601()
-    .withMessage("La date de début doit être au format ISO"),
+    .withMessage("La date de début doit être une date valide"),
 
-  body("heureDebut")
-    .notEmpty()
-    .withMessage("L'heure  de début est requise")
-    .isString()
-    .withMessage("L'heure  de début doit être au format ISO"),
-
-  body("heureFin")
-    .notEmpty()
-    .withMessage("L'heure de fin  est requise")
-    .isString()
-    .withMessage("L'heure  de fin doit être au format ISO"),
-
-  body("dateFin")
+  body("endDateTime")
     .notEmpty()
     .withMessage("La date de fin est requise")
     .isISO8601()
-    .withMessage("La date de fin doit être au format ISO")
+    .withMessage("La date de fin doit être une date valide")
     .custom((value, { req }) => {
-      if (new Date(value) <= new Date(req.body.dateDebut)) {
+      if (new Date(value) <= new Date(req.body.startDateTime)) {
         throw new Error("La date de fin doit être après la date de début");
       }
       return true;
     }),
 
-  body("statut")
-    .optional()
-    .isIn(["Disponible", "Expirée"])
-    .withMessage("Le statut doit être 'Disponible' ou 'Expirée'"),
-
   body("coverImage")
     .optional()
     .isString()
-    .withMessage("Une image de couverture est requise"),
+    .withMessage("L'image de couverture doit être une URL"),
 ];

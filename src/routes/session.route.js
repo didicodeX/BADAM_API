@@ -10,24 +10,28 @@ import {
   deleteSession,
   getReviewBySessionId,
   getSessionsByUser,
-  getSessionsWithCount
+  getSessionsWithCount,
+  getMySessions,
+  getMySessionsWithRegistrations
 } from "../controllers/session.controller.js";
 import { sessionTrainingValidator } from "../validators/session.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
 
+
 const router = Router();
 
-router.get("/me", authenticate, getSessionsByUser);
+router.get("/me", authenticate, getMySessions);
+// router.get("/me", authenticate, getSessionsByUser);
 router.post(
   "/:trainingId",
   authenticate,
-  sessionTrainingValidator,
-  validate,
+  // sessionTrainingValidator,
+  // validate,
   createSession
 );
 router.get("/", getAllSessions);
-router.get("/search", getSessionsByTrainingTitle);
 router.get("/:id", authenticate, getSession);
+router.get("/search", getSessionsByTrainingTitle);
 router.get("/training/:trainingId", getSessionsByTraining);
 
 router.patch(
@@ -37,8 +41,13 @@ router.patch(
   validate,
   updateSession
 );
-router.delete(":id", authenticate, deleteSession);
+router.delete("/:id", authenticate, deleteSession);
 router.get("/:id/review", getReviewBySessionId);
 
 router.get("/with-participant-count", getSessionsWithCount);
+
+router.get("/mine/with-registrations", authenticate, getMySessionsWithRegistrations);
+
+
+
 export default router;

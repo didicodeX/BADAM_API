@@ -1,37 +1,24 @@
-import * as RegistrationService from "../services/registration.service.js"
-
-// export const createRegistration = async (req, res) => {
-//   try {
-//     const Registration = await RegistrationService.createRegistration(req.body);
-//     res.status(201).json(Registration);
-//   } catch (err) {
-//     res.status(400).json({ error: err.message });
-//   }
-// }
+import * as registrationService from "../services/registration.service.js";
 
 export const createRegistration = async (req, res) => {
   try {
-
-    const io = req.app.get("io");
-    const registration = await RegistrationService.createRegistration(req.body, io);
-    res.status(201).json(registration);
-
-    const userId = req.user.id;
+    const participantId = req.user.id;
     const sessionId = req.params.sessionId;
-
-    const Registration = await RegistrationService.createRegistration({ userId, sessionId });
-
-    res.status(201).json(Registration);
-
+    const io = req.app.get("io");
+    const registration = await registrationService.createRegistration(
+      participantId,
+      sessionId,
+      io
+    );
+    res.status(201).json({registration: registration, message: "Inscription reussie !"});
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-
 export const getRegistrations = async (req, res) => {
   try {
-    const registrations = await RegistrationService.getRegistrations();
+    const registrations = await registrationService.getRegistrations();
     res.status(201).json(registrations);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -40,7 +27,9 @@ export const getRegistrations = async (req, res) => {
 
 export const getRegistrationsByUserId = async (req, res) => {
   try {
-    const registrations = await RegistrationService.getRegistrationsByUserId(req.user.id);
+    const registrations = await registrationService.getRegistrationsByUserId(
+      req.user.id
+    );
     res.status(200).json(registrations);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -49,7 +38,9 @@ export const getRegistrationsByUserId = async (req, res) => {
 
 export const getRegistrationsBySessionId = async (req, res) => {
   try {
-    const registrations = await RegistrationService.getRegistrationsBySessionId(req.params.sessionId);
+    const registrations = await registrationService.getRegistrationsBySessionId(
+      req.params.sessionId
+    );
     res.status(200).json(registrations);
   } catch (err) {
     res.status(400).json({ error: err.message });
@@ -59,9 +50,9 @@ export const getRegistrationsBySessionId = async (req, res) => {
 export const deleteRegistration = async (req, res) => {
   try {
     const { sessionId } = req.params;
-    const userId = req.user.id; 
+    const userId = req.user.id;
 
-    await RegistrationService.deleteRegistration(userId, sessionId);
+    await registrationService.deleteRegistration(userId, sessionId);
 
     res.status(200).json({ message: "Inscription supprimée avec succès" });
   } catch (err) {

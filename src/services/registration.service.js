@@ -3,27 +3,34 @@ import { createNotification } from "./notification.service.js";
 
 import { Session } from "../models/session.model.js";
 
-export const createRegistration = async (data, io) => {
-  const registration = await registrationRepo.createRegistration(data);
+export const createRegistration = async (sessionId,participantId, io) => {
+  if (!participantId || !sessionId) {
+    throw new Error("participantId et sessionId sont requis.");
+  }
 
-  const session = await Session.findById(data.session).populate("training");
-  const instructorId = session.training.instructor;
-  const TrainingTitre = session.training.titre;
+  const registration =  await registrationRepo.createRegistration({
+    participant: participantId,
+    session: sessionId,
+  });
 
-  // Créer une notification
-  const notification = await createNotification(
-    instructorId,
-    `Nouvelle inscription pour votre session "${TrainingTitre}"`
-  );
+  // const session = await Session.findById(registration.session).populate("training");
+  // const instructorId = session.training.instructor;
+  // const trainingTitre = session.training.titre;
 
-  // Notifier en temps réel
-  io.to(`instructor_${instructorId}`).emit(
-    "nouvelle-notification",
-    notification
-  );
+  // // Créer une notification
+  // const notification = await createNotification(
+  //   instructorId,
+  //   `Nouvelle inscription pour votre session "${trainingTitre}"`
+  // );
 
-  // Rafraîchir la liste des inscriptions pour ce instructor
-  io.to(`instructor_${instructorId}`).emit("mise-a-jour-inscriptions");
+  // // Notifier en temps réel
+  // io.to(`instructor_${instructorId}`).emit(
+  //   "nouvelle-notification",
+  //   notification
+  // );
+
+  // // Rafraîchir la liste des inscriptions pour ce instructor
+  // io.to(`instructor_${instructorId}`).emit("mise-a-jour-inscriptions");
 
   return registration;
 };

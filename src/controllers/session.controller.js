@@ -3,6 +3,14 @@ import * as sessionService from "../services/session.service.js";
 export const createSession = async (req, res) => {
   const { id } = req.user;
   const { trainingId } = req.params;
+  console.log(
+    "id : ",
+    id,
+    "\ntrainingId : ",
+    trainingId,
+    "\nreq.body : ",
+    req.body
+  );
 
   try {
     const session = await sessionService.createSession(
@@ -22,6 +30,18 @@ export const getAllSessions = async (req, res) => {
     return res.status(200).json(sessions);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+export const getMySessions = async (req, res) => {
+  try {
+    console.log("Recherche des sessions pour :", req.user.id);
+    const sessions = await sessionService.getMySessions(req.user.id);
+    console.log("Sessions trouvées :", sessions);
+    res.status(200).json(sessions);
+  } catch (err) {
+    console.error("Erreur lors de la récupération des sessions :", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
@@ -113,9 +133,7 @@ export const deleteSession = async (req, res) => {
       return res.status(404).json({ message: "session non trouvée" });
     }
 
-    res
-      .status(200)
-      .json(deleteSession, { message: "session supprimée avec succès" });
+    res.status(200).json({ message: "session supprimée avec succès" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -133,9 +151,22 @@ export const getReviewBySessionId = async (req, res) => {
 
 export const getSessionsWithCount = async (req, res) => {
   try {
+    console.log("🔍 Requête reçue pour /with-participant-count"); // 👈
     const sessions = await sessionService.listSessionsWithCount();
     res.status(200).json(sessions);
   } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getMySessionsWithRegistrations = async (req, res) => {
+  try {
+    const sessions = await sessionService.listMySessionsWithRegistrations(
+      req.user.id
+    );
+    res.status(200).json(sessions);
+  } catch (error) {
+    console.error("Erreur getMySessionsWithRegistrations:", error);
     res.status(500).json({ error: error.message });
   }
 };
