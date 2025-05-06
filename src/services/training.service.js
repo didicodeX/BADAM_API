@@ -30,6 +30,7 @@ export const getTrainingsByUser = async (userId) => {
   );
 
   return uniqueTrainings;
+
 };
 
 export const updateTraining = async (id, data) => {

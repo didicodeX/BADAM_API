@@ -54,7 +54,7 @@ export const deleteRegistration = async (req, res) => {
 
     await registrationService.deleteRegistration(userId, sessionId);
 
-    res.status(200).json({ message: "Inscription supprimée avec succès" });
+    res.status(200).json({ message: "Vous êtes désinscrits à cette session" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

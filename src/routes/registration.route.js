@@ -18,8 +18,9 @@ router.post(
   validate,
   createRegistration
 );
+router.get("/me", getRegistrationsByUserId);
 router.get("/:id", getRegistrations);
-router.get("/", getRegistrationsByUserId);
+
 router.get(
   "/sessions/:sessionId",
   authorize("admin", "instructor"),

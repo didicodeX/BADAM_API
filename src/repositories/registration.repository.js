@@ -27,27 +27,14 @@ export const getRegistrations = async () => {
 };
 
 export const getRegistrationsByUserId = async (userId) => {
-  return await Registration.find({ user: userId })
-    .populate({
-      path: "user",
-      select: "name email",
-    })
-    .populate({
-      path: "session",
-      populate: {
-        path: "training",
-        populate: {
-          path: "instructor",
-          select: "name email",
-        },
-      },
-    });
+  return await Registration.find({ participant: userId })
+  .populate("session","startDateTime endDateTime maxParticipants address");
 };
 
 export const getRegistrationsBySessionId = async (sessionId) => {
   return await Registration.find({ session: sessionId })
     .populate({
-      path: "user",
+      path: "participant",
       select: "name email",
     })
     .populate({
@@ -64,7 +51,7 @@ export const getRegistrationsBySessionId = async (sessionId) => {
 
 export const getRegistrationByUserAndSession = async (userId, sessionId) => {
   return await Registration.findOne({
-    user: userId,
+    participant: userId,
     session: sessionId,
   });
 };

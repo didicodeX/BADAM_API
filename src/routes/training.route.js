@@ -8,7 +8,7 @@ import {
   deleteTraining,
   getReviewByTraining,
   getTrainingsByUser,
-  getCreateTrainingsByUser,
+  getTrainingsCreateByUser
 } from "../controllers/training.controller.js";
 import { createTrainingValidator } from "../validators/training.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
@@ -31,10 +31,9 @@ router.post(
 
 router.get("/", getAllTraining);
 
-router.get("/me", getCreateTrainingsByUser);
+router.get("/me", getTrainingsCreateByUser);
 router.get("/:id", getTraining);
 router.get("/:userId", getTrainingsByUser);
-router.get("/user/:userId", getTrainingsByUser);
 
 //GET /trainings/:id/reviews — Voir tous les avis d’une formation, via ses sessions
 router.patch("/:id", createTrainingValidator, validate, updateTraining);
