@@ -109,3 +109,11 @@ export const getMySessionsWithRegistrations = async (userId) => {
     }
   ]);
 };
+
+export const findSessionWithTraining = (id) => {
+  return Session.findById(id).select("-createdAt -updatedAt -__v -createdBy").populate("training", "title description");
+};
+
+export const findSessionWithInstructor = (id) => {
+  return Session.findById(id).select("-createdAt -updatedAt -__v ").populate("createdBy", "avatar name createdAt");
+}

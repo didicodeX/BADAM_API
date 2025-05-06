@@ -6,7 +6,7 @@ export const createReview = async (data, sessionId, userId) => {
   return await Review.create({
     ...data,
     session: sessionId,
-    user: userId,
+    author: userId,
   });
 };
 
@@ -118,4 +118,10 @@ export const getTopRatedSessions = async (limit = 5) => {
       },
     },
   ]);
+};
+
+export const findReviewsForSession = (sessionId) => {
+  return Review.find({ session: sessionId })
+    .select("comment rating createdAt")
+    .populate("author", "name");
 };

@@ -1,4 +1,6 @@
 import * as sessionRepo from "../repositories/session.repository.js";
+import * as reviewRepo from "../repositories/review.repository.js";
+import * as registrationRepo from "../repositories/registration.repository.js";
 
 export const createSession = async (data, userId, trainingId) => {
   return await sessionRepo.createSession(data, userId, trainingId);
@@ -50,4 +52,21 @@ export const listSessionsWithCount = async () => {
 
 export const listMySessionsWithRegistrations = async (userId) => {
   return await sessionRepo.getMySessionsWithRegistrations(userId);
+};
+
+export const getSessionDetails = async (sessionId) => {
+  const session = await sessionRepo.findSessionWithTraining(sessionId);
+  const registrations = await registrationRepo.findRegistrationsForSession(
+    sessionId
+  );
+  const reviews = await reviewRepo.findReviewsForSession(sessionId);
+
+  return { session, registrations, reviews };
+};
+
+export const getSessionDetailsPublic = async (sessionId) => {
+  const session = await sessionRepo.findSessionWithInstructor(sessionId);
+  const reviews = await reviewRepo.findReviewsForSession(sessionId);
+
+  return { session, reviews };
 };

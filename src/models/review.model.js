@@ -4,16 +4,12 @@ const ReviewSchema = new mongoose.Schema(
   {
     comment: { type: String },
     rating: { type: Number },
-    reviewDate: {
-      type: Date,
-      required: true,
-    },
     session: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Session",
       required: true,
     },
-    user: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,

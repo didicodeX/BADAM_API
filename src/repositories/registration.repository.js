@@ -72,3 +72,7 @@ export const getRegistrationByUserAndSession = async (userId, sessionId) => {
 export const deleteRegistration = async (id) => {
   return await Registration.findByIdAndDelete(id);
 };
+
+export const findRegistrationsForSession = (sessionId) => {
+  return Registration.find({ session: sessionId }).select("participant").populate("participant", "avatar name");
+};

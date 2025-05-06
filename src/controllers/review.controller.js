@@ -5,7 +5,7 @@ export const createReview = async (req, res) => {
   const { sessionId } = req.params;
 
   try {
-    const review = await reviewService.createreview(
+    const review = await reviewService.createReview(
       req.body,
       sessionId,
       userId

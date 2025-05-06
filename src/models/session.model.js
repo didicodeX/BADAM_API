@@ -25,15 +25,16 @@ const SessionSchema = new mongoose.Schema(
       required: true,
     },
     coverImage: { type: String },
-    status: {
-      type: String,
-      enum: ["Available", "Expired"],
-      default: "Available",
-    },
   },
   {
     timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
   }
 );
+
+SessionSchema.virtual("status").get(function () {
+  return new Date(this.endDateTime) < new Date() ? "Expired" : "Available";
+});
 
 export const Session = mongoose.model("Session", SessionSchema);
