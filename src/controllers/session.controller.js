@@ -52,7 +52,7 @@ export const getSession = async (req, res) => {
 
 export const getSessionsByTraining = async (req, res) => {
   try {
-    const id = req.params.TrainingId;
+    const id = req.params.trainingId;
     const sessions = await sessionService.getSessionsByTraining(id);
 
     if (!sessions) {
@@ -108,7 +108,12 @@ export const updateSession = async (req, res) => {
       return res.status(404).json({ message: "Session non trouvée" });
     }
 
-    res.status(200).json(updatedSession);
+    res
+      .status(200)
+      .json({
+        message: "Session modifiée avec succès",
+        session: updatedSession,
+      });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

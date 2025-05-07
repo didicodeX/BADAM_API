@@ -4,11 +4,15 @@ import { Registration } from "../models/registration.model.js";
 import mongoose from "mongoose";
 
 export const createSession = async (data, userId, trainingId) => {
-  return await Session.create({ ...data, createdBy: userId, training: trainingId });
+  return await Session.create({
+    ...data,
+    createdBy: userId,
+    training: trainingId,
+  });
 };
 
 export const getAllSessions = async () => {
-  return await Session.find();
+  return await Session.find().populate("training");
 };
 
 export const findSessionsByCreator = (userId) => {
@@ -20,8 +24,44 @@ export const getSession = async (id) => {
 };
 
 export const getSessionsByTraining = async (trainingId) => {
-  return await Session.find({ training: trainingId });
+  return Session.aggregate([
+    {
+      $match: {
+        training: new mongoose.Types.ObjectId(trainingId),
+      },
+    },
+    {
+      $lookup: {
+        from: "registrations",
+        localField: "_id",
+        foreignField: "session",
+        as: "registrations",
+      },
+    },
+    {
+      $addFields: {
+        currentNbParticipants: { $size: "$registrations" },
+      },
+    },
+    {
+      $lookup: {
+        from: "trainings",
+        localField: "training",
+        foreignField: "_id",
+        as: "training",
+      },
+    },
+    {
+      $unwind: "$training",
+    },
+    {
+      $project: {
+        registrations: 0,
+      },
+    },
+  ]);
 };
+
 
 export const getSessionsByUser = async (userId) => {
   return await Registration.find({ user: userId }).populate("session");
@@ -76,44 +116,96 @@ export const getSessionsWithParticipantCount = async () => {
 export const getMySessionsWithRegistrations = async (userId) => {
   return Session.aggregate([
     {
-      $match: { createdBy: new mongoose.Types.ObjectId(userId) }
+      $match: { createdBy: new mongoose.Types.ObjectId(userId) },
     },
     {
       $lookup: {
         from: "registrations",
         localField: "_id",
         foreignField: "session",
-        as: "registrations"
-      }
+        as: "registrations",
+      },
     },
     {
       $addFields: {
-        currentNbParticipants: { $size: "$registrations" }
-      }
+        currentNbParticipants: { $size: "$registrations" },
+      },
     },
     {
       $lookup: {
         from: "trainings",
         localField: "training",
         foreignField: "_id",
-        as: "training"
-      }
+        as: "training",
+      },
     },
     {
-      $unwind: "$training"
+      $unwind: "$training",
     },
     {
       $project: {
-        registrations: 0 // ou garde-les si tu veux les noms des participants
-      }
-    }
+        registrations: 0, // ou garde-les si tu veux les noms des participants
+      },
+    },
   ]);
 };
 
 export const findSessionWithTraining = (id) => {
-  return Session.findById(id).select("-createdAt -updatedAt -__v -createdBy").populate("training", "title description");
+  return Session.findById(id)
+    .select("-createdAt -updatedAt -__v -createdBy")
+    .populate("training", "title description");
+};
+
+export const findSessionWithTrainingAndParticipants = async (id) => {
+  const sessionId = new mongoose.Types.ObjectId(id);
+
+  return Session.aggregate([
+    {
+      $match: { _id: sessionId },
+    },
+    {
+      $lookup: {
+        from: "registrations",
+        localField: "_id",
+        foreignField: "session",
+        as: "registrations",
+      },
+    },
+    {
+      $addFields: {
+        currentNbParticipants: { $size: "$registrations" },
+      },
+    },
+    {
+      $lookup: {
+        from: "trainings",
+        localField: "training",
+        foreignField: "_id",
+        as: "training",
+      },
+    },
+    {
+      $unwind: "$training",
+    },
+    {
+      $project: {
+        "training.title": 1,
+        "training.description": 1,
+        "training.images": 1,
+        currentNbParticipants: 1,
+        startDateTime: 1,
+        endDateTime: 1,
+        address: 1,
+        maxParticipants: 1,
+        coverImage: 1,
+        // ...ajoute les champs que tu veux garder
+      },
+    },
+  ]).then((res) => res[0]); // retourne un seul document
 };
 
 export const findSessionWithInstructor = (id) => {
-  return Session.findById(id).select("-createdAt -updatedAt -__v ").populate("createdBy", "avatar name createdAt");
-}
+  return Session.findById(id)
+    .select("-createdAt -updatedAt -__v ")
+    .populate("createdBy", "avatar name createdAt");
+};

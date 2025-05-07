@@ -14,11 +14,10 @@ import {
   getMySessions,
   getMySessionsWithRegistrations,
   getSessionDetails,
-  getSessionDetailsPublic
+  getSessionDetailsPublic,
 } from "../controllers/session.controller.js";
 import { sessionTrainingValidator } from "../validators/session.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
-
 
 const router = Router();
 
@@ -41,15 +40,9 @@ router.get("/:id/details/me", authenticate, getSessionDetails);
 
 router.get("/search", getSessionsByTrainingTitle);
 
-router.get("/training/:trainingId", getSessionsByTraining);
+router.get("/trainings/:trainingId", getSessionsByTraining);
 
-router.patch(
-  "/:id",
-  authenticate,
-  sessionTrainingValidator,
-  validate,
-  updateSession
-);
+router.patch("/:id", authenticate, updateSession);
 
 router.delete("/:id", authenticate, deleteSession);
 
@@ -57,8 +50,10 @@ router.get("/:id/review", getReviewBySessionId);
 
 router.get("/with-participant-count", getSessionsWithCount);
 
-router.get("/mine/with-registrations", authenticate, getMySessionsWithRegistrations);
-
-
+router.get(
+  "/mine/with-registrations",
+  authenticate,
+  getMySessionsWithRegistrations
+);
 
 export default router;

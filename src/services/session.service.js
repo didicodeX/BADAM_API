@@ -55,7 +55,7 @@ export const listMySessionsWithRegistrations = async (userId) => {
 };
 
 export const getSessionDetails = async (sessionId) => {
-  const session = await sessionRepo.findSessionWithTraining(sessionId);
+  const session = await sessionRepo.findSessionWithTrainingAndParticipants(sessionId);
   const registrations = await registrationRepo.findRegistrationsForSession(
     sessionId
   );
