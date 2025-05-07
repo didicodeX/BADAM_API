@@ -5,7 +5,6 @@ export const addToWishlist = async (req, res) => {
         const userId = req.user.id;
 
         const { sessionId } = req.params;
-        console.log(sessionId);
         
         await wishlistService.addToWishlist(userId, sessionId);
 
@@ -33,7 +32,7 @@ export const getUserWishlist = async (req, res) => {
 export const removeFromWishlist = async (req, res) => {
     try {
         const userId = req.user.id;
-        const sessionId = req.params.id;
+        const sessionId = req.params.sessionId;
 
         const result = await wishlistService.removeFromWishlist(userId, sessionId);
         res.status(200).json({ message: "Session retirée de la wishlist.", result });

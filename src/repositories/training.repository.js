@@ -36,16 +36,7 @@ export const getTrainingsCreateByUser = async (userId) => {
 };
 
 export const getTrainingsByUser = async (userId) => {
-  return await Registration.find({ user: userId }).populate({
-    path: "session",
-    populate: {
-      path: "training",
-      populate: {
-        path: "instructor",
-        select: "name",
-      },
-    },
-  });
+  return await Training.find({ instructor: userId });
 };
 
 export const updateTraining = async (id, data) => {

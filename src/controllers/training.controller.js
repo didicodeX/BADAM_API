@@ -58,13 +58,13 @@ export const getTraining = async (req, res) => {
   }
 };
 
-export const getCreateTrainingsByUser = async (req, res) => {
+export const getTrainingsCreateByUser = async (req, res) => {
   const userId = req.user.id;
 
   try {
     const trainings = await trainingService.getTrainingsCreateByUser(userId);
     if (!trainings) {
-      return res.status(404).json({ message: "formation non trouvée" });
+      return res.status(404).json({ message: "Formation non trouvée" });
     }
     res.status(200).json(trainings);
   } catch (error) {
@@ -73,7 +73,7 @@ export const getCreateTrainingsByUser = async (req, res) => {
 };
 
 export const getTrainingsByUser = async (req, res) => {
-  const userId = req.user.userId;
+  const userId = req.params;
 
   try {
     const Trainings = await trainingService.getTrainingsByUser(userId);

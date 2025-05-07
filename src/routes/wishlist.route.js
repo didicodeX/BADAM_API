@@ -9,6 +9,6 @@ const router = Router();
 
 router.post("/:sessionId", addToWishlist);
 router.get("/", getUserWishlist);
-router.delete("/:id", removeFromWishlist);
+router.delete("/:sessionId", removeFromWishlist);
 
 export default router;
