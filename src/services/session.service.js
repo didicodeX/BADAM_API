@@ -7,7 +7,7 @@ export const createSession = async (data, userId, trainingId) => {
 };
 
 export const getAllSessions = async () => {
-  return await sessionRepo.getAllSessions();
+  return await sessionRepo.getSessionsWithParticipantCount();
 };
 
 export const getMySessions = async (userId) => {
@@ -55,18 +55,39 @@ export const listMySessionsWithRegistrations = async (userId) => {
 };
 
 export const getSessionDetails = async (sessionId) => {
-  const session = await sessionRepo.findSessionWithTrainingAndParticipants(sessionId);
+  const session = await sessionRepo.findSessionWithTrainingAndParticipants(
+    sessionId
+  );
   const registrations = await registrationRepo.findRegistrationsForSession(
     sessionId
   );
-  const reviews = await reviewRepo.findReviewsForSession(sessionId);
+  const reviews = await reviewRepo.findReviewsForTraining(session.training._id);
+  const ratingStats = await reviewRepo.getTrainingRatingStats(
+    session.training._id
+  );
 
-  return { session, registrations, reviews };
+  return {
+    session,
+    registrations,
+    reviews,
+    ratingStats,
+  };
 };
 
 export const getSessionDetailsPublic = async (sessionId) => {
   const session = await sessionRepo.findSessionWithInstructor(sessionId);
-  const reviews = await reviewRepo.findReviewsForSession(sessionId);
+  const reviews = await reviewRepo.findReviewsForTraining(session.training._id);
+  const ratingStats = await reviewRepo.getTrainingRatingStats(
+    session.training._id
+  );
 
-  return { session, reviews };
+  return { session, reviews,ratingStats };
+};
+
+export const getTopRatedSessions = async () => {
+  return await sessionRepo.getTopRatedSessions();
+};
+
+export const getLatestSessions = async () => {
+  return await sessionRepo.getLatestSessions();
 };

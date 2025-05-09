@@ -1,7 +1,7 @@
 import * as reviewRepo from "../repositories/review.repository.js";
 
-export const createReview = async (data, sessionId, userId) => {
-  return await reviewRepo.createReview(data, sessionId, userId);
+export const createReview = async (data, trainingId, userId) => {
+  return await reviewRepo.createReview(data, trainingId, userId);
 };
 
 export const getAllReview = async () => {

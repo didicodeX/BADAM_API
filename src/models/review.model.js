@@ -4,9 +4,9 @@ const ReviewSchema = new mongoose.Schema(
   {
     comment: { type: String },
     rating: { type: Number },
-    session: {
+    training: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Session",
+      ref: "Training",
       required: true,
     },
     author: {

@@ -10,12 +10,13 @@ export const createTraining = async (req, res) => {
       id
     );
 
-    res.status(201).json(training);
+    res
+      .status(201)
+      .json({ training, message: "Formation créée avec succès !" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
-
 
 export const createTrainingMulter = async (req, res) => {
   const { id } = req.user;
@@ -104,7 +105,10 @@ export const updateTraining = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: "Formation modifiée avec succès", training: updatedTraining });
+      .json({
+        message: "Formation modifiée avec succès",
+        training: updatedTraining,
+      });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

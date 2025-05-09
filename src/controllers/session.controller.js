@@ -187,3 +187,22 @@ export const getSessionDetailsPublic = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const getTopRatedSessions = async (req, res) => {
+  try {
+    const data = await sessionService.getTopRatedSessions();
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getLatestSessions = async (req, res) => {
+  try {
+    const data = await sessionService.getLatestSessions();
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+

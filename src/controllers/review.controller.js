@@ -2,15 +2,15 @@ import * as reviewService from "../services/review.service.js";
 
 export const createReview = async (req, res) => {
   const { id: userId } = req.user;
-  const { sessionId } = req.params;
+  const { trainingId } = req.params;
 
   try {
     const review = await reviewService.createReview(
       req.body,
-      sessionId,
+      trainingId,
       userId
     );
-    res.status(201).json(review);
+    res.status(201).json({ review, message: "Avis créé avec succès" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

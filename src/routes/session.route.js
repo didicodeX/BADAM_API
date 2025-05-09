@@ -15,6 +15,8 @@ import {
   getMySessionsWithRegistrations,
   getSessionDetails,
   getSessionDetailsPublic,
+  getTopRatedSessions,
+  getLatestSessions
 } from "../controllers/session.controller.js";
 import { sessionTrainingValidator } from "../validators/session.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
@@ -31,6 +33,10 @@ router.post(
   createSession
 );
 router.get("/", getAllSessions);
+
+router.get("/latest", getLatestSessions);
+
+router.get("/sessions/top-rated", getTopRatedSessions);
 
 router.get("/:id", authenticate, getSession);
 

@@ -1,11 +1,12 @@
 import { Review } from "../models/review.model.js";
 import { Session } from "../models/session.model.js";
+import mongoose from "mongoose";
 //import { Training } from "../models/training.js";
 
-export const createReview = async (data, sessionId, userId) => {
+export const createReview = async (data, trainingId, userId) => {
   return await Review.create({
     ...data,
-    session: sessionId,
+    training: trainingId,
     author: userId,
   });
 };
@@ -125,3 +126,30 @@ export const findReviewsForSession = (sessionId) => {
     .select("comment rating createdAt")
     .populate("author", "name");
 };
+
+export const findReviewsForTraining = (trainingId) => {
+  return Review.find({ training: trainingId })
+    .select("comment rating createdAt")
+    .populate("author", "name");
+};
+
+// reviewRepo.js
+export const getTrainingRatingStats = async (trainingId) => {
+  const stats = await Review.aggregate([
+    {
+      $match: {
+        training: new mongoose.Types.ObjectId(trainingId),
+      },
+    },
+    {
+      $group: {
+        _id: "$training",
+        average: { $avg: "$rating" },
+        total: { $sum: 1 },
+      },
+    },
+  ]);
+
+  return stats[0] || { average: null, total: 0 };
+};
+

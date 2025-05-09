@@ -17,7 +17,7 @@ import { validate } from "../middlewares/validate.middleware.js";
 
 const router = Router();
 
-router.post("/:sessionId", reviewValidator, validate, createReview);
+router.post("/:trainingId", reviewValidator, validate, createReview);
 router.get("/", getAllReview);
 router.get("/:id", getReview);
 router.get("/training/:trainingId", getReviewByTraining);
