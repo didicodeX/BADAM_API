@@ -4,11 +4,22 @@ import mongoose from "mongoose";
 //import { Training } from "../models/training.js";
 
 export const createReview = async (data, trainingId, userId) => {
-  return await Review.create({
+  const review = await Review.create({
     ...data,
     training: trainingId,
     author: userId,
   });
+
+  // On retourne la review fraîchement créée, avec les infos de l’auteur peuplées
+  return await Review.findById(review._id)
+    .populate("author", "name avatar")
+    .populate("training", "title"); // Ajoute .populate("training") si tu en as besoin
+};
+
+export const findByTrainingId = async (trainingId) => {
+  return await Review.find({ training: trainingId })
+    .populate("author", "name avatar") // très important pour le front
+    .sort({ createdAt: -1 }); // les plus récents en premier
 };
 
 export const getAllReview = async () => {

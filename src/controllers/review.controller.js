@@ -16,6 +16,17 @@ export const createReview = async (req, res) => {
   }
 };
 
+export const getReviewsByTrainingId = async (req, res) => {
+  const { trainingId } = req.params;
+
+  try {
+    const reviews = await reviewService.getReviewsByTrainingId(trainingId);
+    res.status(200).json({ data: reviews });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 export const getAllReview = async (req, res) => {
   try {
     const review = await reviewService.getAllReview();

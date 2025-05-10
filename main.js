@@ -1,16 +1,15 @@
 import "dotenv/config";
-
 import "./src/config/database.config.js";
 
+import http from "http";
 import app from "./app.js";
-import {server} from "./app.js";
+import { setupSocket } from "./src/socket/index.js";
 
-const PORT =process.env.PORT;
-// app.listen(PORT, () => {
-//   console.log(`Server running at http://localhost:${PORT}`);
-// });
+const PORT = process.env.PORT;
+const server = http.createServer(app);
 
+setupSocket(server, process.env.CLIENT_URL);
 
 server.listen(PORT, () => {
-  console.log(`🚀 Serveur démarré sur le port${PORT}`);
+  console.log(`🚀 Serveur démarré sur http://localhost:${PORT}`);
 });

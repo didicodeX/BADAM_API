@@ -4,6 +4,10 @@ export const createReview = async (data, trainingId, userId) => {
   return await reviewRepo.createReview(data, trainingId, userId);
 };
 
+export const getReviewsByTrainingId = async (trainingId) => {
+  return await reviewRepo.findByTrainingId(trainingId);
+};
+
 export const getAllReview = async () => {
   return await reviewRepo.getAllReview();
 };

@@ -36,7 +36,7 @@ router.get("/", getAllSessions);
 
 router.get("/latest", getLatestSessions);
 
-router.get("/sessions/top-rated", getTopRatedSessions);
+router.get("/top-rated", getTopRatedSessions);
 
 router.get("/:id", authenticate, getSession);
 

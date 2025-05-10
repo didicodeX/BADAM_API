@@ -11,6 +11,7 @@ import {
   deleteReview,
   getTopRatedTrainings,
   getTopRatedSessions,
+  getReviewsByTrainingId 
 } from "../controllers/review.controller.js";
 import { reviewValidator } from "../validators/review.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
@@ -18,6 +19,7 @@ import { validate } from "../middlewares/validate.middleware.js";
 const router = Router();
 
 router.post("/:trainingId", reviewValidator, validate, createReview);
+router.get("/:trainingId", getReviewsByTrainingId); // 🔐 auth requise
 router.get("/", getAllReview);
 router.get("/:id", getReview);
 router.get("/training/:trainingId", getReviewByTraining);
