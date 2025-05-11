@@ -3,10 +3,11 @@ import { Session } from "../models/session.model.js";
 import mongoose from "mongoose";
 //import { Training } from "../models/training.js";
 
-export const createReview = async (data, trainingId, userId) => {
+export const createReview = async (data, trainingId,sessionId, userId) => {
   const review = await Review.create({
     ...data,
     training: trainingId,
+    session: sessionId,
     author: userId,
   });
 
@@ -18,8 +19,9 @@ export const createReview = async (data, trainingId, userId) => {
 
 export const findByTrainingId = async (trainingId) => {
   return await Review.find({ training: trainingId })
-    .populate("author", "name avatar") // très important pour le front
-    .sort({ createdAt: -1 }); // les plus récents en premier
+    .populate("author", "name avatar")         // ✅ auteur
+    .populate("session", "startDateTime endDateTime address") // ✅ session (les champs utiles)
+    .sort({ createdAt: -1 });                  // ✅ les plus récents en haut
 };
 
 export const getAllReview = async () => {
@@ -44,7 +46,7 @@ export const getReviewByTraining = async (trainingId) => {
 };
 
 export const getReviewBySession = async (sessionId) => {
-  return await Review.find({ session: sessionId });
+  return await Review.find({ session: sessionId }).populate("author", "name avatar");
 };
 
 export const updateReview = async (id, data) => {
@@ -141,7 +143,8 @@ export const findReviewsForSession = (sessionId) => {
 export const findReviewsForTraining = (trainingId) => {
   return Review.find({ training: trainingId })
     .select("comment rating createdAt")
-    .populate("author", "name");
+    .populate("author", "name")
+    .sort({ createdAt: -1 }); // ⬅️ Tri du plus récent au plus ancien
 };
 
 // reviewRepo.js

@@ -4,11 +4,9 @@ export const createRegistration = async (req, res) => {
   try {
     const participantId = req.user.id;
     const sessionId = req.params.sessionId;
-    const io = req.app.get("io");
     const registration = await registrationService.createRegistration(
       sessionId,
-      participantId,
-      io
+      participantId
     );
     res
       .status(201)
@@ -39,6 +37,7 @@ export const getRegistrationsByUserId = async (req, res) => {
 };
 
 export const getRegistrationsBySessionId = async (req, res) => {
+  console.log("ici controller");
   try {
     const registrations = await registrationService.getRegistrationsBySessionId(
       req.params.sessionId
@@ -52,11 +51,11 @@ export const getRegistrationsBySessionId = async (req, res) => {
 export const deleteRegistration = async (req, res) => {
   try {
     const { sessionId } = req.params;
-    const userId = req.user.id;
+    const targetUserId = req.query.userId || req.user.id;
 
-    await registrationService.deleteRegistration(userId, sessionId);
+    await registrationService.deleteRegistration(targetUserId, sessionId);
 
-    res.status(200).json({ message: "Vous êtes désinscrits à cette session" });
+    res.status(200).json({ message: "Désinscription réussie" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }

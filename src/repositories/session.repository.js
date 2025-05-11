@@ -55,12 +55,26 @@ export const getSessionsByTraining = async (trainingId) => {
       $unwind: "$training",
     },
     {
+      $lookup: {
+        from: "reviews",
+        localField: "_id",
+        foreignField: "session",
+        as: "reviews",
+      },
+    },
+    {
+      $addFields: {
+        averageRating: { $avg: "$reviews.rating" }, // ✅ ici la moyenne
+      },
+    },
+    {
       $project: {
         registrations: 0,
       },
     },
   ]);
 };
+
 
 export const getSessionsByUser = async (userId) => {
   return await Registration.find({ user: userId }).populate("session");
@@ -85,9 +99,11 @@ export const deleteSession = async (id) => {
 
 export const getReviewBySessionId = async (sessionId) => {
   return await Review.find({ session: sessionId })
-    .select("comment rating dateReview")
-    .sort({ dateReview: -1 }); // tri du plus récent au plus ancien
+    .select("comment rating createdAt")
+    .populate("author", "name avatar")
+    .sort({ createdAt: -1 });
 };
+
 
 export const getSessionsWithParticipantCount = async () => {
   return Session.aggregate([
@@ -164,6 +180,10 @@ export const findSessionWithTraining = (id) => {
   return Session.findById(id)
     .select("-createdAt -updatedAt -__v -createdBy")
     .populate("training", "title description");
+};
+
+export const getSessionWithTraining = async (sessionId) => {
+  return await Session.findById(sessionId).populate("training");
 };
 
 export const findSessionWithTrainingAndParticipants = async (id) => {

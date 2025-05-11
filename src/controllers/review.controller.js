@@ -3,11 +3,13 @@ import * as reviewService from "../services/review.service.js";
 export const createReview = async (req, res) => {
   const { id: userId } = req.user;
   const { trainingId } = req.params;
-
+  const { sessionId } = req.body;
+  
   try {
     const review = await reviewService.createReview(
       req.body,
       trainingId,
+      sessionId,
       userId
     );
     res.status(201).json({ review, message: "Avis créé avec succès" });

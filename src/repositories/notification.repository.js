@@ -1,11 +1,25 @@
 import { Notification } from "../models/notification.model.js";
 
-export const createNotification = async (instructorId, message) => {
-  return await Notification.create({ instructor: instructorId, message });
-};
+export const notificationRepository = {
+  create: async (data) => {
+    return await Notification.create(data);
+  },
 
-export const getNotificationsByinstructorId = async (instructorId) => {
-  return await Notification.find({ instructor: instructorId }).sort({
-    createdAt: -1,
-  });
+  findByUser: async (userId) => {
+    return await Notification.find({ recipient: userId }).sort({
+      createdAt: -1,
+    });
+  },
+
+  markAsRead: async (notificationId) => {
+    return await Notification.findByIdAndUpdate(
+      notificationId,
+      { read: true },
+      { new: true }
+    );
+  },
+
+  delete: async (notificationId) => {
+    return await Notification.findByIdAndDelete(notificationId);
+  },
 };

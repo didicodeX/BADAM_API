@@ -121,8 +121,9 @@ export const updateSession = async (req, res) => {
 
 export const deleteSession = async (req, res) => {
   try {
-    const id = req.params.id;
-    const deletedSession = await sessionService.deleteSession(id);
+    const userId = req.user.id;
+    const sessionId = req.params.id;
+    const deletedSession = await sessionService.deleteSession(sessionId, userId);
 
     if (!deletedSession) {
       return res.status(404).json({ message: "session non trouvée" });

@@ -61,3 +61,10 @@ export const getReviewByTrainingId = async (trainingId) => {
     })
     .select("comment rating dateReview session");
 };
+
+export const getTrainingWithInstructorId = async (id) => {
+  return await Training.findById(id).populate({
+    path: "instructor",
+    select: "name avatar", // 👈 on inclut _id par défaut ici
+  });
+};

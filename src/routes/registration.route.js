@@ -25,7 +25,6 @@ router.get("/", getRegistrationsByUserId);
 
 router.get(
   "/sessions/:sessionId",
-  authorize("admin", "instructor"),
   getRegistrationsBySessionId
 );
 

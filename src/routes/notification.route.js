@@ -1,14 +1,14 @@
 import { Router } from "express";
-import { getNotificationsByinstructorId } from "../controllers/notification.controller.js";
-import { authorize } from "../middlewares/authorize.middleware.js";
+import {
+  getMyNotifications,
+  markAsRead,
+  deleteNotification,
+} from "../controllers/notification.controller.js";
 
 const router = Router();
 
-// Récupérer les notifications d'un instructor
-router.get(
-  "/:instructorId",
-  authorize("instructor"),
-  getNotificationsByinstructorId
-);
+router.get("/", getMyNotifications);
+router.patch("/:id/read", markAsRead);
+router.delete("/:id", deleteNotification);
 
 export default router;

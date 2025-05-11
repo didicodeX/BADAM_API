@@ -1,7 +1,30 @@
 import * as reviewRepo from "../repositories/review.repository.js";
+import * as trainingRepository from "../repositories/training.repository.js";
+import { notificationService } from "./notification.service.js";
+import * as userRepository from "../repositories/user.repository.js";
+import { formatName } from "../utils/formatName.js";
 
-export const createReview = async (data, trainingId, userId) => {
-  return await reviewRepo.createReview(data, trainingId, userId);
+export const createReview = async (data, trainingId, sessionId, userId) => {
+  const review = await reviewRepo.createReview(data, trainingId,sessionId, userId);
+
+  const training = await trainingRepository.getTrainingWithInstructorId(
+    trainingId
+  );
+  const reviewer = await userRepository.findById(userId); // ⚠️ à adapter selon ton chemin
+
+  if (!reviewer) {
+    throw new Error("Utilisateur introuvable pour la notification");
+  }
+
+  const authorId = training.instructor._id;
+
+  await notificationService.createNotification(
+    authorId,
+    `${formatName(reviewer.name)} a laissé un avis sur ta session "${training.title}".`,
+    `/dashboard/sessions/${sessionId}`
+  );
+
+  return review;
 };
 
 export const getReviewsByTrainingId = async (trainingId) => {

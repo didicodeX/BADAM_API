@@ -2,17 +2,16 @@ import mongoose from "mongoose";
 
 const NotificationSchema = new mongoose.Schema(
   {
-    instructor: {
+    recipient: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
     message: { type: String, required: true },
-    isRead: { type: Boolean, default: false },
+    link: { type: String }, // optionnel : URL pour rediriger
+    read: { type: Boolean, default: false },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
 export const Notification = mongoose.model("Notification", NotificationSchema);

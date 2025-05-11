@@ -28,8 +28,6 @@ router.get("/me", authenticate, getMySessions);
 router.post(
   "/:trainingId",
   authenticate,
-  // sessionTrainingValidator,
-  // validate,
   createSession
 );
 router.get("/", getAllSessions);
@@ -52,7 +50,7 @@ router.patch("/:id", authenticate, updateSession);
 
 router.delete("/:id", authenticate, deleteSession);
 
-router.get("/:id/review", getReviewBySessionId);
+router.get("/:id/reviews", getReviewBySessionId);
 
 router.get("/with-participant-count", getSessionsWithCount);
 

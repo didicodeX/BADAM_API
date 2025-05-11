@@ -9,6 +9,11 @@ const ReviewSchema = new mongoose.Schema(
       ref: "Training",
       required: true,
     },
+    session: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Session",
+      required: true, // ou facultatif
+    },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
