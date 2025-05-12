@@ -23,7 +23,7 @@ router.use("/trainings", authenticate, trainingRoutes);
 
 router.use("/sessions", sessionRoutes);
 
-router.use("/reviews", authenticate, reviewRoutes);
+router.use("/reviews", reviewRoutes);
 
 router.use("/registrations", authenticate, registrationRoutes);
 
