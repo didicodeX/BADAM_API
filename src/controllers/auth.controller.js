@@ -1,4 +1,5 @@
 import * as authService from "../services/auth.service.js";
+import { cookieOptions } from "../config/cookie.config.js";
 
 // Contrôleur qui gère la requête HTTP POST /register
 export const register = async (req, res) => {
@@ -6,7 +7,7 @@ export const register = async (req, res) => {
     const newUser = await authService.register(req.body);
     // Retourne un succès avec les données
     res.status(200).json({
-      message: "User registered successfully",
+      message: "Inscription réussie!",
       user: newUser,
     });
   } catch (err) {
@@ -20,21 +21,11 @@ export const login = async (req, res) => {
   try {
     const { user, accessToken } = await authService.login(email, password);
 
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: true, // Passe à true si tu es en HTTPS
-      sameSite: "None", // "None" si tu veux tester avec frontend séparé
-      maxAge: 24 * 60 * 60 * 1000, // 1 jour
-    });
+    res.cookie("accessToken", accessToken, cookieOptions);
 
     res.status(200).json({
       message: "Connexion réussie!",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-        roles: user.roles,
-      },
+      user
     });
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -42,14 +33,9 @@ export const login = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-  res.clearCookie("accessToken", {
-    httpOnly: true,
-    secure: true,
-    sameSite: "None",
-    domain: "localhost", // ou ton domaine de production
-  });
+  res.clearCookie("accessToken", cookieOptions);
 
-  res.json({ message: "User logged out." });
+  res.json({ message: "Déconnexion réussie!" });
 };
 
 export const profile = async (req, res) => {

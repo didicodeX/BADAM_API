@@ -2,12 +2,12 @@ import { Router } from "express";
 import authRoutes from "../routes/auth.route.js";
 import userRoutes from "../routes/user.route.js";
 import { authenticate } from "../middlewares/auth.middleware.js";
-import { authorize } from "../middlewares/authorize.middleware.js";
-import formationRoutes from "../routes/formation.route.js";
+import trainingRoutes from "../routes/training.route.js";
 import sessionRoutes from "../routes/session.route.js";
 import registrationRoutes from "../routes/registration.route.js";
 import wishlistRoutes from "../routes/wishlist.route.js";
-import avisRoutes from "../routes/avis.route.js";
+import reviewRoutes from "../routes/review.route.js";
+import notificationRoutes from "../routes/notification.route.js";
 
 const router = Router();
 
@@ -17,37 +17,18 @@ router.get("/", (req, res) => {
 
 router.use("/auth", authRoutes);
 
-// router.use(
-//   "/users",
-//   authenticate,
-//   authorize("superAdmin", "admin"),
-//   userRoutes
-// );
+router.use("/users", authenticate, userRoutes);
 
-router.use("/users",authenticate, userRoutes);
+router.use("/trainings", authenticate, trainingRoutes);
 
-router.use(
-  "/formations",
-  authenticate,
-  authorize("formateur"),
-  formationRoutes
-);
+router.use("/sessions", sessionRoutes);
 
-router.use("/sessions", authenticate, sessionRoutes);
+router.use("/reviews", reviewRoutes);
 
-router.use("/avis", authenticate,  avisRoutes);
+router.use("/registrations", authenticate, registrationRoutes);
 
-router.use(
-  "/registrations",
-  authenticate,
-  registrationRoutes
-);
+router.use("/wishlist", authenticate, wishlistRoutes);
 
-
-router.use(
-  "/wishlist",
-  authenticate,
-  wishlistRoutes
-);
+router.use("/notifications", authenticate, notificationRoutes);
 
 export default router;

@@ -1,20 +1,25 @@
 import mongoose from "mongoose";
 
-const MessageSchema = new mongoose.Schema({
-  contenuMessage: { type: String },
-  date: { type: Date, default: Date.now },
-  vu: { type: Boolean, default: false },
+const MessageSchema = new mongoose.Schema(
+  {
+    messageContent: { type: String },
+    date: { type: Date, default: Date.now },
+    seen: { type: Boolean, default: false },
 
-  chat: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Chat",
-    required: true,
+    chat: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Chat",
+      required: true,
+    },
+    sender: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
-  expediteur: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "user",
-    required: true,
-  },
-});
+  {
+    timestamps: true,
+  }
+);
 
 export const Message = mongoose.model("Message", MessageSchema);

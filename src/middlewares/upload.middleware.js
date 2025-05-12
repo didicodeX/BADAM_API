@@ -13,8 +13,8 @@ const storage = new CloudinaryStorage({
     let folder = "projects/BADAM/others"; // par défaut
     if (folderType === "avatar") {
       folder = "projects/BADAM/avatars";
-    } else if (folderType === "formation") {
-      folder = "projects/BADAM/formations";
+    } else if (folderType === "training") {
+      folder = "projects/BADAM/trainings";
     }
 
     return {
@@ -25,7 +25,6 @@ const storage = new CloudinaryStorage({
     };
   },
 });
-
 
 // Middleware Multer
 export const upload = multer({ storage });

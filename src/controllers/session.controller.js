@@ -2,15 +2,17 @@ import * as sessionService from "../services/session.service.js";
 
 export const createSession = async (req, res) => {
   const { id } = req.user;
-  const {formationId}=req.params;
+  const { trainingId } = req.params;
 
- 
   try {
-    const session = await sessionService.createSession(req.body,id,formationId);
+    const session = await sessionService.createSession(
+      req.body,
+      id,
+      trainingId
+    );
     res.status(201).json(session);
   } catch (err) {
     res.status(400).json({ error: err.message });
-
   }
 };
 
@@ -20,6 +22,16 @@ export const getAllSessions = async (req, res) => {
     return res.status(200).json(sessions);
   } catch (err) {
     res.status(400).json({ error: err.message });
+  }
+};
+
+export const getMySessions = async (req, res) => {
+  try {
+    const sessions = await sessionService.getMySessions(req.user.id);
+    res.status(200).json(sessions);
+  } catch (err) {
+    console.error("Erreur lors de la récupération des sessions :", err);
+    res.status(500).json({ message: "Erreur serveur" });
   }
 };
 
@@ -38,10 +50,10 @@ export const getSession = async (req, res) => {
   }
 };
 
-export const getSessionsByFormation = async (req, res) => {
+export const getSessionsByTraining = async (req, res) => {
   try {
-    const id = req.params.formationId;
-    const sessions = await sessionService.getSessionsByFormation(id);
+    const id = req.params.trainingId;
+    const sessions = await sessionService.getSessionsByTraining(id);
 
     if (!sessions) {
       return res.status(404).json({ message: "session non trouvée" });
@@ -54,42 +66,34 @@ export const getSessionsByFormation = async (req, res) => {
 };
 
 export const getSessionsByUser = async (req, res) => {
-  const userId = req.params.userId;
-  
-
+  const userId = req.user.id;
   try {
     const sessions = await sessionService.getSessionsByUser(userId);
     res.status(200).json(sessions);
   } catch (error) {
-    res.status(500).json({ message: "Erreur lors de la récupération des sessions", error });
+    res
+      .status(500)
+      .json({ message: "Erreur lors de la récupération des sessions", error });
   }
 };
 
-
-export const getSessionsByFormationTitle = async (req, res) => {
+export const getSessionsByTrainingTitle = async (req, res) => {
   try {
-    const query = req.query.query ;
+    const query = req.query.query;
 
-    console.log(query)
+    console.log(query);
     console.log("Query reçu (req.query):", query);
     console.log("Params reçus (req.params):", req.params);
-    const sessions = await sessionService.getSessionsByFormationTitle(query);
-    
+    const sessions = await sessionService.getSessionsByTrainingTitle(query);
 
     if (!sessions) {
       return res.status(404).json({ message: "session non trouvée" });
     }
     res.status(200).json(sessions);
-
-
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur", error: err.message });
   }
-
 };
-
-
-
 
 export const updateSession = async (req, res) => {
   try {
@@ -104,7 +108,12 @@ export const updateSession = async (req, res) => {
       return res.status(404).json({ message: "Session non trouvée" });
     }
 
-    res.status(200).json(updatedSession);
+    res
+      .status(200)
+      .json({
+        message: "Session modifiée avec succès",
+        session: updatedSession,
+      });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -112,27 +121,89 @@ export const updateSession = async (req, res) => {
 
 export const deleteSession = async (req, res) => {
   try {
-    const id = req.params.id;
-    const deletedSession = await sessionService.deleteSession(id);
+    const userId = req.user.id;
+    const sessionId = req.params.id;
+    const deletedSession = await sessionService.deleteSession(sessionId, userId);
 
     if (!deletedSession) {
       return res.status(404).json({ message: "session non trouvée" });
     }
 
-    res
-      .status(200)
-      .json(deleteSession, { message: "session supprimée avec succès" });
+    res.status(200).json({ message: "session supprimée avec succès" });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
 
-export const getAvisBySessionId = async (req, res) => {
+export const getReviewBySessionId = async (req, res) => {
   try {
     const sessionId = req.params.id;
-    const avis = await sessionService.getAvisBySessionId(sessionId);
-    res.json(avis);
+    const review = await sessionService.getReviewBySessionId(sessionId);
+    res.json(review);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
+
+export const getSessionsWithCount = async (req, res) => {
+  try {
+    console.log("🔍 Requête reçue pour /with-participant-count"); // 👈
+    const sessions = await sessionService.listSessionsWithCount();
+    res.status(200).json(sessions);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getMySessionsWithRegistrations = async (req, res) => {
+  try {
+    const sessions = await sessionService.listMySessionsWithRegistrations(
+      req.user.id
+    );
+    res.status(200).json(sessions);
+  } catch (error) {
+    console.error("Erreur getMySessionsWithRegistrations:", error);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+export const getSessionDetails = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await sessionService.getSessionDetails(id);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error("Erreur dans getSessionDetails:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getSessionDetailsPublic = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await sessionService.getSessionDetailsPublic(id);
+    res.status(200).json(data);
+  } catch (err) {
+    console.error("Erreur dans getSessionDetails:", err.message);
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getTopRatedSessions = async (req, res) => {
+  try {
+    const data = await sessionService.getTopRatedSessions();
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+export const getLatestSessions = async (req, res) => {
+  try {
+    const data = await sessionService.getLatestSessions();
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+

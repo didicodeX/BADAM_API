@@ -12,13 +12,7 @@ export const createMessageValidator = [
     .optional()
     .isBoolean()
     .withMessage("La valeur 'vu' doit être true ou false"),
-
- 
-
-  
 ];
-
-import { body } from "express-validator";
 
 export const updateMessageValidator = [
   body("message")
