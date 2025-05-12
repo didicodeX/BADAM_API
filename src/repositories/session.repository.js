@@ -84,7 +84,7 @@ export const getSessionsByTrainingTitle = async (searchText) => {
   return await Session.find()
     .populate({
       path: "training",
-      match: { titre: { $regex: searchText, $options: "i" } },
+      match: { title: { $regex: searchText, $options: "i" } },
     })
     .then((sessions) => sessions.filter((s) => s.training));
 };

@@ -81,14 +81,16 @@ export const getSessionsByTrainingTitle = async (req, res) => {
   try {
     const query = req.query.query;
 
-    console.log(query);
-    console.log("Query reçu (req.query):", query);
-    console.log("Params reçus (req.params):", req.params);
+    if (!query || typeof query !== "string") {
+      return res.status(400).json({ message: "Requête invalide : aucun mot-clé fourni." });
+    }
+
     const sessions = await sessionService.getSessionsByTrainingTitle(query);
 
-    if (!sessions) {
-      return res.status(404).json({ message: "session non trouvée" });
+    if (!sessions || sessions.length === 0) {
+      return res.status(404).json({ message: "Aucune session trouvée." });
     }
+
     res.status(200).json(sessions);
   } catch (err) {
     res.status(500).json({ message: "Erreur serveur", error: err.message });

@@ -34,6 +34,8 @@ router.get("/", getAllSessions);
 
 router.get("/latest", getLatestSessions);
 
+router.get("/search", getSessionsByTrainingTitle);
+
 router.get("/top-rated", getTopRatedSessions);
 
 router.get("/:id", authenticate, getSession);
@@ -42,7 +44,6 @@ router.get("/:id/details", getSessionDetailsPublic);
 
 router.get("/:id/details/me", authenticate, getSessionDetails);
 
-router.get("/search", getSessionsByTrainingTitle);
 
 router.get("/trainings/:trainingId", getSessionsByTraining);
 
