@@ -5,13 +5,6 @@ import { cookieOptions } from "../config/cookie.config.js";
 export const register = async (req, res) => {
   try {
     const newUser = await authService.register(req.body);
-    const { accessToken } = await authService.login(
-      newUser.email,
-      req.body.password
-    );
-    // Crée un cookie avec le token d'accès
-    res.cookie("accessToken", accessToken, cookieOptions);
-
     // Retourne un succès avec les données
     res.status(200).json({
       message: "Inscription réussie!",
