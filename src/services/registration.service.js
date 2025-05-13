@@ -55,15 +55,6 @@ export const createRegistration = async (sessionId, participantId) => {
     );
   }
 
-  const notif = await notificationService.createNotification(
-  instructorId,
-  `${participant.name} s'est inscrit à ta session "${training.title}".`,
-  `/sessions/${sessionId}`
-);
-
-console.log("✅ Notification envoyée et enregistrée :", notif);
-
-
   return registration;
 };
 
