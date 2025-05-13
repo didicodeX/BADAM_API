@@ -3,6 +3,7 @@ import {
   createRegistration,
   getRegistrations,
   getRegistrationsByUserId,
+  getArchivedRegistrations,
   getRegistrationsBySessionId,
   deleteRegistration,
 } from "../controllers/registration.controller.js";
@@ -19,9 +20,12 @@ router.post(
   createRegistration
 );
 
+router.get("/archived", getArchivedRegistrations);
+
 router.get("/:id", getRegistrations);
 
 router.get("/", getRegistrationsByUserId);
+
 
 router.get(
   "/sessions/:sessionId",

@@ -6,7 +6,7 @@ export const createRegistration = async (req, res) => {
     const sessionId = req.params.sessionId;
     const registration = await registrationService.createRegistration(
       sessionId,
-      participantId
+      participantId,
     );
     res
       .status(201)
@@ -28,6 +28,17 @@ export const getRegistrations = async (req, res) => {
 export const getRegistrationsByUserId = async (req, res) => {
   try {
     const registrations = await registrationService.getRegistrationsByUserId(
+      req.user.id
+    );
+    res.status(200).json(registrations);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+export const getArchivedRegistrations = async (req, res) => {
+  try {
+    const registrations = await registrationService.getArchivedRegistrations(
       req.user.id
     );
     res.status(200).json(registrations);

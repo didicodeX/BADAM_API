@@ -10,17 +10,32 @@ export const createSession = async (data, userId, trainingId) => {
   const newSession = await sessionRepo.createSession(data, userId, trainingId);
   await newSession.populate("training", "title");
 
+  // 🔎 1. Trouver les anciennes sessions expirées de cette formation
   const expiredSessions = await Session.find({
     training: newSession.training._id,
     endDateTime: { $lt: new Date() },
   }).select("_id");
 
   const expiredSessionIds = expiredSessions.map((s) => s._id);
+
+  // 📦 2. Archiver les inscriptions liées aux sessions expirées
+  await Registration.updateMany(
+    { session: { $in: expiredSessionIds } },
+    { $set: { archived: true } }
+  );
+
+  // 🗑️ 3. Supprimer les wishlists liées aux sessions expirées
   const wishlists = await Wishlist.find({
     session: { $in: expiredSessionIds },
   });
   await Wishlist.deleteMany({ session: { $in: expiredSessionIds } });
 
+  // 📧 4. Récupérer les inscriptions actives (avant archivage) aux sessions expirées
+  const registrations = await Registration.find({
+    session: { $in: expiredSessionIds }
+  }).select("participant");
+
+  // 🗓️ 5. Préparer le message de notification
   const formattedDate = new Intl.DateTimeFormat("fr-FR", {
     weekday: "long",
     year: "numeric",
@@ -30,16 +45,34 @@ export const createSession = async (data, userId, trainingId) => {
 
   const message = `Bonne nouvelle ! Une nouvelle session est disponible pour la formation "${newSession.training.title}". Elle aura lieu le ${formattedDate} à ${newSession.address}.`;
 
+  // 🔔 6. Notifier tous les utilisateurs concernés
+  const notifiedUserIds = new Set();
+
   for (const wish of wishlists) {
-    await notificationService.createNotification(
-      wish.user,
-      message,
-      `/sessions/${newSession._id}`
-    );
+    if (!notifiedUserIds.has(wish.user.toString())) {
+      await notificationService.createNotification(
+        wish.user,
+        message,
+        `/sessions/${newSession._id}`
+      );
+      notifiedUserIds.add(wish.user.toString());
+    }
+  }
+
+  for (const reg of registrations) {
+    if (!notifiedUserIds.has(reg.participant.toString())) {
+      await notificationService.createNotification(
+        reg.participant,
+        message,
+        `/sessions/${newSession._id}`
+      );
+      notifiedUserIds.add(reg.participant.toString());
+    }
   }
 
   return newSession;
 };
+
 
 export const getAllSessions = async () => {
   return await sessionRepo.getSessionsWithParticipantCount();

@@ -75,6 +75,10 @@ export const getRegistrationsByUserId = async (userId) => {
   return await registrationRepo.getRegistrationsByUserId(userId);
 };
 
+export const getArchivedRegistrations = async (userId) => {
+  return await registrationRepo.getArchivedRegistrations(userId);
+};
+
 export const getRegistrationsBySessionId = async (sessionId) => {
   console.log("Session ID reçu :", sessionId);
   return await registrationRepo.findRegistrationsForSession(sessionId);

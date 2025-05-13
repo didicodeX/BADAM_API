@@ -13,6 +13,7 @@ const RegistrationSchema = new mongoose.Schema(
       ref: "Session",
       required: true,
     },
+    archived: { type: Boolean, default: false },
   },
   {
     timestamps: true,

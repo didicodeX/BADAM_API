@@ -15,10 +15,11 @@ import {
 } from "../controllers/review.controller.js";
 import { reviewValidator } from "../validators/review.validator.js";
 import { validate } from "../middlewares/validate.middleware.js";
+import { authenticate } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-router.post("/:trainingId", reviewValidator, validate, createReview);
+router.post("/:trainingId", authenticate, createReview);
 router.get("/:trainingId", getReviewsByTrainingId); // 🔐 auth requise
 router.get("/", getAllReview);
 router.get("/:id", getReview);
