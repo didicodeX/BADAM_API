@@ -7,8 +7,7 @@ export const getUser = (id) => {
 };
 
 export const createUser = async (userData) => {
-  const user = new User(userData);
-  return await user.save();
+  return User.create(userData);
 };
 
 export const updateUser = (id, updatedData) => {

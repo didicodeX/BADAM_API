@@ -280,6 +280,7 @@ export const findSessionWithInstructor = async (id) => {
         "createdBy.name": 1,
         "createdBy.createdAt": 1,
         "createdBy.bio": 1,
+        "createdBy.phone": 1,
         "training._id": 1, 
         "training.title": 1,
         "training.description": 1,
