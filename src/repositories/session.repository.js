@@ -356,7 +356,7 @@ export const getLatestSessions = async () => {
       $sort: { createdAt: -1 },
     },
     {
-      $limit: 6,
+      $limit: 15,
     },
     {
       $lookup: {
