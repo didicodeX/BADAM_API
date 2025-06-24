@@ -3,16 +3,12 @@ import { cookieOptions } from "../config/cookie.config.js";
 
 // Contrôleur qui gère la requête HTTP POST /register
 export const register = async (req, res) => {
-  const { email, password } = req.body;
   try {
-    const { user, accessToken } = await authService.register(email, password);
-
-    res.cookie("accessToken", accessToken, cookieOptions);
-
+    const newUser = await authService.register(req.body);
     // Retourne un succès avec les données
     res.status(200).json({
       message: "Inscription réussie!",
-      user,
+      user: newUser,
     });
   } catch (err) {
     res.status(400).json({ error: err.message });
