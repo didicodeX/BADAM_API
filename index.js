@@ -2,8 +2,24 @@ import "dotenv/config";
 import "./src/config/database.config.js";
 
 import http from "http";
-import app from "./src/express-app.js";
+import express from "express";
+import cookieParser from "cookie-parser";
+import cors from "cors";
+import routes from "./src/routes/index.js";
 import { setupSocket } from "./src/socket/index.js";
+
+const app = express();
+
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL,
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+app.use(cookieParser());
+app.use("/", routes);
 
 const server = http.createServer(app);
 
